@@ -47,12 +47,13 @@
 \usepackage{titletoc}                                                        % Required for manipulating the table of contents
 
 \contentsmargin{0cm}                                                         % Removes the default margin
+\setcounter{tocdepth}{3}
 
 % Part text styling
-\titlecontents{part}[1cm]                                                    % Indentation
+\titlecontents{part}[0cm]                                                    % Indentation
 {\addvspace{20pt}\centering\LARGE\bfseries}                                  % Spacing and font options for parts
 {}
-{}  
+{}
 {}
 
 % Chapter text styling
@@ -134,16 +135,36 @@
 %----------------------------------------------------------------------------------------
 %	PART HEADINGS
 %----------------------------------------------------------------------------------------
+\newcommand{\@mypartnumtocformat}[2]{%
+    \setlength\fboxsep{0pt}                                             % Padding dei box
+    \hskip -0.2cm
+    \colorbox{mainColor!20}{%                                           % Primo box
+        \strut\parbox[c][0.7cm]{1.2cm}{%
+            \color{mainColor!70}\Large\sffamily\bfseries\centering#1
+        }
+    }%
+    \hskip 0.1cm                                                        % Spazio tra i box
+    \colorbox{mainColor!40}{%                                           % Secondo box
+        \strut\parbox[c][0.7cm]{\linewidth-1.2cm-0.1cm-0.3cm}{%
+            \Large\sffamily\centering#2
+        }
+    }
+}%
 
-\newlength\esp
-\setlength\esp{4pt}
-\newlength\ecart
-\setlength\ecart{1.2cm-\esp}
 \newcommand{\thepartimage}{}
 \newcommand{\partimage}[1]{\renewcommand{\thepartimage}{#1}}
 \def\@part[#1]#2{
     \ifnum \c@secnumdepth >-2\relax
         \refstepcounter{part}
+        \addcontentsline{toc}{part}{%
+            \texorpdfstring{%
+                \protect\@mypartnumtocformat{\thepart}{#1}
+            }{
+                \partname~\thepart\ ---\ #1
+            }
+        }
+    \else
+        \addcontentsline{toc}{part}{\texorpdfstring{\protect\@myparttocformat{#1}}{#1}}
     \fi
     \startcontents
     \markboth{}{}
