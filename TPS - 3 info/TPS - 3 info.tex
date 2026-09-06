@@ -16,7 +16,7 @@
     \coordinate [below=12cm] (midpoint) at (current page.north);
     \node at (current page.north west){
         \begin{tikzpicture}[remember picture,overlay]
-            \node[anchor=north west,inner sep=0pt] at (0,0) {\includegraphics[width=\paperwidth]{libro.jpg}};
+            \node[anchor=north west,inner sep=0pt] at (0,0) {\includegraphics[width=\paperwidth]{libro.png}};
             \draw[anchor=north] (midpoint) node [fill=mainColor!30!white,fill opacity=0.9,text opacity=1,inner sep=1cm]{
                 \Huge\centering\bfseries\sffamily\parbox[c][][t]{\paperwidth}
                 {
@@ -62,100 +62,100 @@
 
 % \partimage{chapter_images/sistema_binario.jpg}
 
-\part{Codifica dell'informazione}
+% \part{Codifica dell'informazione}
 
-%----------------------------------------------------------------------------------------
-%	CHAPTER 1
-%----------------------------------------------------------------------------------------
+% %----------------------------------------------------------------------------------------
+% %	CHAPTER 1
+% %----------------------------------------------------------------------------------------
 
-% \chapterimage{chapter_head_1.pdf}
+% % \chapterimage{chapter_head_1.pdf}
 
-\chapter{Alfabeto sorgente e codice}
+% \chapter{Alfabeto sorgente e codice}
 
-\section{Conversione dalla base 10 alla base 2}
+% \section{Conversione dalla base 10 alla base 2}
 
-% \immediate\write18{python3 genera_esercizi.py > temp/esercizi.tex}
+% % \immediate\write18{python3 genera_esercizi.py > temp/esercizi.tex}
 
-% \input{temp/esercizi.tex}
+% % \input{temp/esercizi.tex}
 
-\begin{esercizio}[1]
-    \textbf{Esercizio guidato}
+% \begin{esercizio}[1]
+%     \textbf{Esercizio guidato}
 
-    Convertire il numero 80 dalla base 10 alla base 2
+%     Convertire il numero 80 dalla base 10 alla base 2
 
-    \lipsum[1]
-\end{esercizio}
+%     \lipsum[1]
+% \end{esercizio}
 
 
-%----------------------------------------------------------------------------------------
-%	CHAPTER 2
-%----------------------------------------------------------------------------------------
+% %----------------------------------------------------------------------------------------
+% %	CHAPTER 2
+% %----------------------------------------------------------------------------------------
 
-\chapter{Sistema binario}
+% \chapter{Sistema binario}
 
-\section{Conversione dalla base 10 alla base 2}
+% \section{Conversione dalla base 10 alla base 2}
 
-\begin{esercizio}[1]
-    \textbf{Esercizio guidato}
+% \begin{esercizio}[1]
+%     \textbf{Esercizio guidato}
 
-    Convertire il numero 80 dalla base 10 alla base 2
+%     Convertire il numero 80 dalla base 10 alla base 2
 
-    \lipsum[1]
-\end{esercizio}
+%     \lipsum[1]
+% \end{esercizio}
 
-\section{Software}
+% \section{Software}
 
-\begin{esercizio}[1]
-    \textbf{Esercizio guidato}
+% \begin{esercizio}[1]
+%     \textbf{Esercizio guidato}
 
-    Convertire il numero 80 dalla base 10 alla base 2
+%     Convertire il numero 80 dalla base 10 alla base 2
 
-    \lipsum[1]
-\end{esercizio}
+%     \lipsum[1]
+% \end{esercizio}
 
-%----------------------------------------------------------------------------------------
-%	CHAPTER 3
-%----------------------------------------------------------------------------------------
+% %----------------------------------------------------------------------------------------
+% %	CHAPTER 3
+% %----------------------------------------------------------------------------------------
 
-% \chapterimage{chapter_head_1.pdf}
+% % \chapterimage{chapter_head_1.pdf}
 
-\chapter{Codifica parole}
+% \chapter{Codifica parole}
 
-\section{ASCII}
+% \section{ASCII}
 
-%----------------------------------------------------------------------------------------
-%	CHAPTER 4
-%----------------------------------------------------------------------------------------
+% %----------------------------------------------------------------------------------------
+% %	CHAPTER 4
+% %----------------------------------------------------------------------------------------
 
-% \chapterimage{chapter_head_1.pdf}
+% % \chapterimage{chapter_head_1.pdf}
 
-\chapter{Codifica immagini}
+% \chapter{Codifica immagini}
 
-\section{Convertire il colore RGB in Hex}
+% \section{Convertire il colore RGB in Hex}
 
-\section{Convertire il colore Hex in RGB}
+% \section{Convertire il colore Hex in RGB}
 
-\section{Calcolo profondità}
+% \section{Calcolo profondità}
 
-%----------------------------------------------------------------------------------------
-%	CHAPTER 5
-%----------------------------------------------------------------------------------------
+% %----------------------------------------------------------------------------------------
+% %	CHAPTER 5
+% %----------------------------------------------------------------------------------------
 
-% \chapterimage{chapter_head_1.pdf}
+% % \chapterimage{chapter_head_1.pdf}
 
-\chapter{Codifica suoni}
+% \chapter{Codifica suoni}
 
-\section{Convertire il colore RGB in Hex}
+% \section{Convertire il colore RGB in Hex}
 
-%----------------------------------------------------------------------------------------
-%	CHAPTER 6
-%----------------------------------------------------------------------------------------
+% %----------------------------------------------------------------------------------------
+% %	CHAPTER 6
+% %----------------------------------------------------------------------------------------
 
-% \chapterimage{chapter_head_1.pdf}
+% % \chapterimage{chapter_head_1.pdf}
 
-\chapter{Codifica video}
+% \chapter{Codifica video}
 
-\section{Convertire il colore RGB in Hex}
+% \section{Convertire il colore RGB in Hex}
 
 %----------------------------------------------------------------------------------------
 %	PART 2
@@ -184,14 +184,16 @@ Effettua le seguenti somme in binario:
 
     Come prima cosa convertiamo i due numeri da decimale a binario
 
-    \immediate\write18{python3 ./../scripts/Dec2Bin.py 41 > temp/somme_ex_1.tex}
-    \input{./temp/somme_ex_1.tex}
+    \immediate\write18{python3 ./../scripts/Dec2Bin.py 41 > temp/ex_dec2bin41.tex}
+    \input{./temp/ex_dec2bin41.tex}
 
-    \immediate\write18{python3 ./../scripts/Dec2Bin.py 18 > temp/somme_ex_2.tex}
-    \input{./temp/somme_ex_2.tex}
+    \immediate\write18{python3 ./../scripts/Dec2Bin.py 18 > temp/ex_dec2bin18.tex}
+    \input{./temp/ex_dec2bin18.tex}
 
-    \immediate\write18{python3 ./../scripts/SommaBinaria.py "41+18" > temp/somme_ex_3.tex}
-    \input{./temp/somme_ex_3.tex}
+    A questo punto eseguire la somma bit a bit, ricordando che 1+1 fa 0 con riporto di 1 e 1+1+1 fa 1 con riporto di 1
+
+    \immediate\write18{python3 ./../scripts/SommaBinaria.py "41+18" > temp/ex_somma.tex}
+    \input{./temp/ex_somma.tex}
 
 \end{esercizio}
 
@@ -204,11 +206,100 @@ Effettua le seguenti somme in binario:
 
 \section{Sottrazione}
 
+Effettua le seguenti sottrazioni in binario:
+
+\begin{esercizio}[1]
+    \textbf{Esercizio guidato}
+
+    41 - 18
+
+    Come prima cosa convertiamo i due numeri da decimale a binario
+
+    \immediate\write18{python3 ./../scripts/Dec2Bin.py 41 > temp/ex_dec2bin41.tex}
+    \input{./temp/ex_dec2bin41.tex}
+
+    \immediate\write18{python3 ./../scripts/Dec2Bin.py 18 > temp/ex_dec2bin18.tex}
+    \input{./temp/ex_dec2bin18.tex}
+
+    A questo punto eseguire la differenza bit a bit, ricordando che 0-1 fa 1 con il prestito di 1 dalla cifra precedente
+
+    \immediate\write18{python3 ./../scripts/SottrazioneBinaria.py "41-18" > temp/ex_sottrazione.tex}
+    \input{./temp/ex_sottrazione.tex}
+
+\end{esercizio}
+
+\newpage
+
+\begin{multicols}{2}
+    \immediate\write18{python3 generate/sottrazioni_binarie.py > temp/sottrazioni_binarie.tex}
+    \input{./temp/sottrazioni_binarie.tex}
+\end{multicols}
+
+\newpage
 
 \section{Moltiplicazione}
 
+Effettua le seguenti moltiplicazioni in binario:
+
+% \begin{esercizio}[1]
+%     \textbf{Esercizio guidato}
+
+%     41 x 9
+
+%     Come prima cosa convertiamo i due numeri da decimale a binario
+
+%     \immediate\write18{python3 ./../scripts/Dec2Bin.py 41 > temp/ex_dec2bin41.tex}
+%     \input{./temp/ex_dec2bin41.tex}
+
+%     \immediate\write18{python3 ./../scripts/Dec2Bin.py 9 > temp/ex_dec2bin9.tex}
+%     \input{./temp/ex_dec2bin9.tex}
+
+%     A questo punto eseguire la differenza bit a bit, ricordando che 0-1 fa 1 con il prestito di 1 dalla cifra precedente
+
+%     \immediate\write18{python3 ./../scripts/MoltiplicazioneBinaria.py "41x9" > temp/ex_moltiplicazione.tex}
+%     \input{./temp/ex_moltiplicazione.tex}
+
+% \end{esercizio}
+
+% \newpage
+
+\begin{multicols}{2}
+    \immediate\write18{python3 generate/moltiplicazioni_binarie.py > temp/moltiplicazioni_binarie.tex}
+    \input{./temp/moltiplicazioni_binarie.tex}
+\end{multicols}
+
+\newpage
 
 \section{Divisione}
+
+Effettua le seguenti divisioni in binario:
+
+% \begin{esercizio}[1]
+%     \textbf{Esercizio guidato}
+
+%     41 x 9
+
+%     Come prima cosa convertiamo i due numeri da decimale a binario
+
+%     \immediate\write18{python3 ./../scripts/Dec2Bin.py 41 > temp/ex_dec2bin41.tex}
+%     \input{./temp/ex_dec2bin41.tex}
+
+%     \immediate\write18{python3 ./../scripts/Dec2Bin.py 9 > temp/ex_dec2bin9.tex}
+%     \input{./temp/ex_dec2bin9.tex}
+
+%     A questo punto eseguire la differenza bit a bit, ricordando che 0-1 fa 1 con il prestito di 1 dalla cifra precedente
+
+%     \immediate\write18{python3 ./../scripts/MoltiplicazioneBinaria.py "41x9" > temp/ex_moltiplicazione.tex}
+%     \input{./temp/ex_moltiplicazione.tex}
+
+% \end{esercizio}
+
+% \newpage
+
+\begin{multicols}{2}
+    \immediate\write18{python3 generate/divisioni_binarie.py > temp/divisioni_binarie.tex}
+    \input{./temp/divisioni_binarie.tex}
+\end{multicols}
 
 
 %----------------------------------------------------------------------------------------
