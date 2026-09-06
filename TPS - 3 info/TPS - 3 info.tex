@@ -306,13 +306,13 @@ Effettua le seguenti divisioni in binario:
 %	CHAPTER 8
 %----------------------------------------------------------------------------------------
 
-\chapter{Rilevazione e correzione errori}
+% \chapter{Rilevazione e correzione errori}
 
-\section{Bit di parità}
+% \section{Bit di parità}
 
-\section{CRC}
+% \section{CRC}
 
-\section{LRC}
+% \section{LRC}
 
 %----------------------------------------------------------------------------------------
 %	PART 3
@@ -329,13 +329,27 @@ Effettua le seguenti divisioni in binario:
 % \chapterimage{chapter_head_1.pdf}
 \chapter{Scheduling}
 
-\section{FCFS}
+\section{FCFS, SJF, SRTF}
 
-\section{SJF}
+Effettua lo schedeuling dei seguenti processi, usando l'algoritmo FCFS, SJF e SRTF:
 
-\section{SRTF}
+\begin{multicols}{2}
+    \immediate\write18{python3 generate/sheduling1.py > temp/sheduling1.tex}
+    \input{./temp/sheduling1.tex}
+\end{multicols}
 
-\section{RR}
+\newpage
+
+\section{Round Robin}
+
+Effettua lo schedeuling dei seguenti processi, usando l'algoritmo Round Robin con t=2 e t=3
+
+\begin{multicols}{2}
+    \immediate\write18{python3 generate/sheduling2.py > temp/sheduling2.tex}
+    \input{./temp/sheduling2.tex}
+\end{multicols}
+
+
 
 
 %----------------------------------------------------------------------------------------
