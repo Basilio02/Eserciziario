@@ -349,9 +349,6 @@ Effettua lo schedeuling dei seguenti processi, usando l'algoritmo Round Robin co
     \input{./temp/sheduling2.tex}
 \end{multicols}
 
-
-
-
 %----------------------------------------------------------------------------------------
 %	CHAPTER 10
 %----------------------------------------------------------------------------------------
@@ -359,8 +356,22 @@ Effettua lo schedeuling dei seguenti processi, usando l'algoritmo Round Robin co
 % \chapterimage{chapter_head_1.pdf}
 \chapter{Gestione memoria}
 
-\section{Paginazione}
+\section{Memoria a partizione fisse}
 
-\section{Segmentazione}
+Mostra l'evoluzione della memoria dati i seguenti processi e la seguente memoria a partizioni fisse
+
+\immediate\write18{python3 generate/allocazione_fisse.py > temp/allocazione_fisse.tex}
+\input{./temp/allocazione_fisse.tex}
+
+\newpage
+
+\section{Memoria a partizione variabili}
+
+Mostra l'evoluzione della memoria dati i seguenti processi e la seguente memoria a partizioni variabili
+
+\immediate\write18{python3 generate/allocazione_dinamiche.py > temp/allocazione_dinamiche.tex}
+\input{./temp/allocazione_dinamiche.tex}
+
+
 
 \end{document}
