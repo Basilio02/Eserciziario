@@ -62,21 +62,65 @@
 
 % \partimage{chapter_images/sistema_binario.jpg}
 
-% \part{Codifica dell'informazione}
+\part{Codifica dell'informazione}
 
-% %----------------------------------------------------------------------------------------
-% %	CHAPTER 1
-% %----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%	CHAPTER 1
+%----------------------------------------------------------------------------------------
 
-% % \chapterimage{chapter_head_1.pdf}
+% \chapterimage{chapter_head_1.pdf}
 
-% \chapter{Alfabeto sorgente e codice}
+\chapter{Alfabeto sorgente e codice}
 
-% \section{Conversione dalla base 10 alla base 2}
+\newpage
 
-% % \immediate\write18{python3 genera_esercizi.py > temp/esercizi.tex}
+\section{Codifica lunghezza fissa e variabile}
 
-% % \input{temp/esercizi.tex}
+Dato il seguente alfabeto sorgente T e alfabeto codifica E,
+\begin{itemize}
+    \item determinare qual è la lunghezza minima per una codifica a lunghezza fissa
+    \item fornire una possibile codifica a lunghezza fissa 
+    \item fornire una possibile codifica a lunghezza variabile
+\end{itemize}
+\emph{Non è necessario specificare tutte le combinazioni possibili, ma è necessario far capire come è costruita la codifica}
+
+\begin{esercizio}[1]
+    \textbf{Esercizio guidato}
+
+    $T = \{ LUN, MAR, MER, GIO, VEN \} $
+    
+    $E = \{ G, H \} $ \\
+
+    Poichè $|T| = 5$ e $|E| = 2$, applicando la formula posso calcolare la lunghezza minima per una codifica a lunghezza fissa:
+        $m = \lceil log_{|E|}{(|T|)} \rceil = \lceil log_2{(5)} \rceil \approx 2.3 \xrightarrow{} 3$
+        
+    Infatti  $|E|^{m} = 2^3 = 8 > |T| = 5$ \\
+
+    Posso proporre una possibile codifica a lunghezza fissa, in cui ogni codifica è lunghezza 3 caratteri dell'alfabeto codifica:
+    \begin{itemize}
+        \item LUN = GGG
+        \item MAR = GGH
+        \item MER = GHG
+        \item GIO = GHH
+        \item VEN = HGG
+    \end{itemize}
+
+    Posso proporre una possibile codifica a lunghezza varibile, in cui ogni codifica è lunghezza massima di 3 caratteri dell'alfabeto codifica:
+    \begin{itemize}
+        \item LUN = G
+        \item MAR = GH
+        \item MER = HG
+        \item GIO = HH
+        \item VEN = H
+    \end{itemize}
+\end{esercizio}
+
+\newpage
+
+\immediate\write18{python3 generate/codifica_fissa_variabile.py > temp/codifica_fissa_variabile.tex}
+\input{temp/codifica_fissa_variabile.tex}
+
+% \section{Codifiche}
 
 % \begin{esercizio}[1]
 %     \textbf{Esercizio guidato}
@@ -241,27 +285,29 @@ Effettua le seguenti sottrazioni in binario:
 
 Effettua le seguenti moltiplicazioni in binario:
 
-% \begin{esercizio}[1]
-%     \textbf{Esercizio guidato}
+\begin{esercizio}[1]
+    \textbf{Esercizio guidato}
 
-%     41 x 9
+    41 x 9
 
-%     Come prima cosa convertiamo i due numeri da decimale a binario
+    Come prima cosa convertiamo i due numeri da decimale a binario
 
-%     \immediate\write18{python3 ./../scripts/Dec2Bin.py 41 > temp/ex_dec2bin41.tex}
-%     \input{./temp/ex_dec2bin41.tex}
+    \immediate\write18{python3 ./../scripts/Dec2Bin.py 41 > temp/ex_dec2bin41.tex}
+    \input{./temp/ex_dec2bin41.tex}
 
-%     \immediate\write18{python3 ./../scripts/Dec2Bin.py 9 > temp/ex_dec2bin9.tex}
-%     \input{./temp/ex_dec2bin9.tex}
+    \immediate\write18{python3 ./../scripts/Dec2Bin.py 9 > temp/ex_dec2bin9.tex}
+    \input{./temp/ex_dec2bin9.tex}
 
-%     A questo punto eseguire la differenza bit a bit, ricordando che 0-1 fa 1 con il prestito di 1 dalla cifra precedente
+    Andiamo ad eseguire la moltiplicazione del primo numero per ogni bit del secondo, ricordandosi di spostarsi di una posizione ogni volta.
 
-%     \immediate\write18{python3 ./../scripts/MoltiplicazioneBinaria.py "41x9" > temp/ex_moltiplicazione.tex}
-%     \input{./temp/ex_moltiplicazione.tex}
+    Al termine di deve eseguire la somma in colonna, qual'ora le righe risultimo molte conviene fare due righe per volta
 
-% \end{esercizio}
+    \immediate\write18{python3 ./../scripts/MoltiplicazioneBinaria.py "41x9" > temp/ex_moltiplicazione.tex}
+    \input{./temp/ex_moltiplicazione.tex}
 
-% \newpage
+\end{esercizio}
+
+\newpage
 
 \begin{multicols}{2}
     \immediate\write18{python3 generate/moltiplicazioni_binarie.py > temp/moltiplicazioni_binarie.tex}
@@ -274,27 +320,28 @@ Effettua le seguenti moltiplicazioni in binario:
 
 Effettua le seguenti divisioni in binario:
 
-% \begin{esercizio}[1]
-%     \textbf{Esercizio guidato}
+\begin{esercizio}[1]
+    \textbf{Esercizio guidato}
 
-%     41 x 9
+    41 : 9
 
-%     Come prima cosa convertiamo i due numeri da decimale a binario
+    Come prima cosa convertiamo i due numeri da decimale a binario
 
-%     \immediate\write18{python3 ./../scripts/Dec2Bin.py 41 > temp/ex_dec2bin41.tex}
-%     \input{./temp/ex_dec2bin41.tex}
+    \immediate\write18{python3 ./../scripts/Dec2Bin.py 41 > temp/ex_dec2bin41.tex}
+    \input{./temp/ex_dec2bin41.tex}
 
-%     \immediate\write18{python3 ./../scripts/Dec2Bin.py 9 > temp/ex_dec2bin9.tex}
-%     \input{./temp/ex_dec2bin9.tex}
+    \immediate\write18{python3 ./../scripts/Dec2Bin.py 9 > temp/ex_dec2bin9.tex}
+    \input{./temp/ex_dec2bin9.tex}
 
-%     A questo punto eseguire la differenza bit a bit, ricordando che 0-1 fa 1 con il prestito di 1 dalla cifra precedente
+    Abbasso un bit alla volta fino a quando ottengo un numero maggiore o uguale del divisore, per ogni bit che abbasso mi segno uno 0 aggiunto un numero adatto mi segno un 1, scrivo il divisore sotto al numero stando attento di allineare le colonne e effettuo la sottrazione; ripeto le operazioni fino all'ultimo bit; 
+    
+    Il risultato sarà composto da quoziente e resto.
 
-%     \immediate\write18{python3 ./../scripts/MoltiplicazioneBinaria.py "41x9" > temp/ex_moltiplicazione.tex}
-%     \input{./temp/ex_moltiplicazione.tex}
+    \immediate\write18{python3 ./../scripts/DivisioneBinaria.py "41:9" > temp/ex_divisione.tex}
+    \input{./temp/ex_divisione.tex}
+\end{esercizio}
 
-% \end{esercizio}
-
-% \newpage
+\newpage
 
 \begin{multicols}{2}
     \immediate\write18{python3 generate/divisioni_binarie.py > temp/divisioni_binarie.tex}
