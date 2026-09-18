@@ -1,0 +1,424 @@
+\documentclass[11pt,fleqn]{book}
+
+\input{../structure.tex}
+
+\definecolor{mainColor}{RGB}{252, 132, 3}
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\begingroup
+\thispagestyle{empty}
+\begin{tikzpicture}[remember picture,overlay]
+    \coordinate [below=12cm] (midpoint) at (current page.north);
+    \node at (current page.north west){
+        \begin{tikzpicture}[remember picture,overlay]
+            \node[anchor=north west,inner sep=0pt] at (0,0) {\includegraphics[width=\paperwidth]{libro.png}};
+            \draw[anchor=north] (midpoint) node [fill=mainColor!30!white,fill opacity=0.9,text opacity=1,inner sep=1cm]{
+                \Huge\centering\bfseries\sffamily\parbox[c][][t]{\paperwidth}
+                {
+                    \centering 
+                    {\Huge Eserciziario}
+                    \\[15pt]
+                    {\Huge TPS}
+                    \\[15pt]
+                    {\Large Classe III - informatica}
+                    \\[20pt] 
+                    {\huge Prof. Gallina Roberto}
+                }
+            };
+        \end{tikzpicture}
+    };
+    \end{tikzpicture}
+    \vfill
+\endgroup
+
+%----------------------------------------------------------------------------------------
+%	COPYRIGHT PAGE
+%----------------------------------------------------------------------------------------
+
+\input{../copyright.tex}
+
+%----------------------------------------------------------------------------------------
+%	TABLE OF CONTENTS
+%----------------------------------------------------------------------------------------
+
+% \chapterimage{libro.jpg}
+
+\pagestyle{empty}
+
+\tableofcontents
+
+\pagestyle{fancy}
+
+\newpage
+
+%----------------------------------------------------------------------------------------
+%	PART 1
+%----------------------------------------------------------------------------------------
+
+% \partimage{chapter_images/sistema_binario.jpg}
+
+\part{Codifica dell'informazione}
+
+%----------------------------------------------------------------------------------------
+%	CHAPTER 1
+%----------------------------------------------------------------------------------------
+
+% \chapterimage{chapter_head_1.pdf}
+
+\chapter{Alfabeto sorgente e codice}
+
+\newpage
+
+\section{Codifica lunghezza fissa e variabile}
+
+Dato il seguente alfabeto sorgente T e alfabeto codifica E,
+\begin{itemize}
+    \item determinare qual è la lunghezza minima per una codifica a lunghezza fissa
+    \item fornire una possibile codifica a lunghezza fissa 
+    \item fornire una possibile codifica a lunghezza variabile
+\end{itemize}
+\emph{Non è necessario specificare tutte le combinazioni possibili, ma è necessario far capire come è costruita la codifica}
+
+\begin{esercizio}[1]
+    \textbf{Esercizio guidato}
+
+    $T = \{ LUN, MAR, MER, GIO, VEN \} $
+    
+    $E = \{ G, H \} $ \\
+
+    Poichè $|T| = 5$ e $|E| = 2$, applicando la formula posso calcolare la lunghezza minima per una codifica a lunghezza fissa:
+        $m = \lceil log_{|E|}{(|T|)} \rceil = \lceil log_2{(5)} \rceil \approx 2.3 \xrightarrow{} 3$
+        
+    Infatti  $|E|^{m} = 2^3 = 8 > |T| = 5$ \\
+
+    Posso proporre una possibile codifica a lunghezza fissa, in cui ogni codifica è lunghezza 3 caratteri dell'alfabeto codifica:
+    \begin{itemize}
+        \item LUN = GGG
+        \item MAR = GGH
+        \item MER = GHG
+        \item GIO = GHH
+        \item VEN = HGG
+    \end{itemize}
+
+    Posso proporre una possibile codifica a lunghezza varibile, in cui ogni codifica è lunghezza massima di 3 caratteri dell'alfabeto codifica:
+    \begin{itemize}
+        \item LUN = G
+        \item MAR = GH
+        \item MER = HG
+        \item GIO = HH
+        \item VEN = H
+    \end{itemize}
+\end{esercizio}
+
+\newpage
+
+% \immediate\write18{python3 generate/codifica_fissa_variabile.py > temp/codifica_fissa_variabile.tex}
+% \input{temp/codifica_fissa_variabile.tex}
+
+% \section{Codifiche}
+
+% \begin{esercizio}[1]
+%     \textbf{Esercizio guidato}
+
+%     Convertire il numero 80 dalla base 10 alla base 2
+
+%     \lipsum[1]
+% \end{esercizio}
+
+
+% %----------------------------------------------------------------------------------------
+% %	CHAPTER 2
+% %----------------------------------------------------------------------------------------
+
+% \chapter{Sistema binario}
+
+% \section{Conversione dalla base 10 alla base 2}
+
+% \begin{esercizio}[1]
+%     \textbf{Esercizio guidato}
+
+%     Convertire il numero 80 dalla base 10 alla base 2
+
+%     \lipsum[1]
+% \end{esercizio}
+
+% \section{Software}
+
+% \begin{esercizio}[1]
+%     \textbf{Esercizio guidato}
+
+%     Convertire il numero 80 dalla base 10 alla base 2
+
+%     \lipsum[1]
+% \end{esercizio}
+
+% %----------------------------------------------------------------------------------------
+% %	CHAPTER 3
+% %----------------------------------------------------------------------------------------
+
+% % \chapterimage{chapter_head_1.pdf}
+
+% \chapter{Codifica parole}
+
+% \section{ASCII}
+
+% %----------------------------------------------------------------------------------------
+% %	CHAPTER 4
+% %----------------------------------------------------------------------------------------
+
+% % \chapterimage{chapter_head_1.pdf}
+
+% \chapter{Codifica immagini}
+
+% \section{Convertire il colore RGB in Hex}
+
+% \section{Convertire il colore Hex in RGB}
+
+% \section{Calcolo profondità}
+
+% %----------------------------------------------------------------------------------------
+% %	CHAPTER 5
+% %----------------------------------------------------------------------------------------
+
+% % \chapterimage{chapter_head_1.pdf}
+
+% \chapter{Codifica suoni}
+
+% \section{Convertire il colore RGB in Hex}
+
+% %----------------------------------------------------------------------------------------
+% %	CHAPTER 6
+% %----------------------------------------------------------------------------------------
+
+% % \chapterimage{chapter_head_1.pdf}
+
+% \chapter{Codifica video}
+
+% \section{Convertire il colore RGB in Hex}
+
+%----------------------------------------------------------------------------------------
+%	PART 2
+%----------------------------------------------------------------------------------------
+
+% \partimage{chapter_images/sistema_binario.jpg}
+
+\part{Operazioni sui dati}
+
+%----------------------------------------------------------------------------------------
+%	CHAPTER 7
+%----------------------------------------------------------------------------------------
+
+% \chapterimage{chapter_head_1.pdf}
+\chapter{Operazioni binarie}
+
+
+\section{Somma}
+
+Effettua le seguenti somme in binario:
+
+\begin{esercizio}[1]
+    \textbf{Esercizio guidato}
+
+    41 + 18
+
+    Come prima cosa convertiamo i due numeri da decimale a binario
+
+    % \immediate\write18{python3 ./../scripts/Dec2Bin.py 41 > temp/ex_dec2bin41.tex}
+    % \input{./temp/ex_dec2bin41.tex}
+
+    % \immediate\write18{python3 ./../scripts/Dec2Bin.py 18 > temp/ex_dec2bin18.tex}
+    % \input{./temp/ex_dec2bin18.tex}
+
+    % A questo punto eseguire la somma bit a bit, ricordando che 1+1 fa 0 con riporto di 1 e 1+1+1 fa 1 con riporto di 1
+
+    % \immediate\write18{python3 ./../scripts/SommaBinaria.py "41+18" > temp/ex_somma.tex}
+    % \input{./temp/ex_somma.tex}
+
+\end{esercizio}
+
+\newpage
+
+\begin{multicols}{2}
+    % \immediate\write18{python3 generate/somme_binarie.py > temp/somme_binarie.tex}
+    % \input{./temp/somme_binarie.tex}
+\end{multicols}
+
+\section{Sottrazione}
+
+Effettua le seguenti sottrazioni in binario:
+
+\begin{esercizio}[1]
+    \textbf{Esercizio guidato}
+
+    41 - 18
+
+    Come prima cosa convertiamo i due numeri da decimale a binario
+
+    % \immediate\write18{python3 ./../scripts/Dec2Bin.py 41 > temp/ex_dec2bin41.tex}
+    % \input{./temp/ex_dec2bin41.tex}
+
+    % \immediate\write18{python3 ./../scripts/Dec2Bin.py 18 > temp/ex_dec2bin18.tex}
+    % \input{./temp/ex_dec2bin18.tex}
+
+    % A questo punto eseguire la differenza bit a bit, ricordando che 0-1 fa 1 con il prestito di 1 dalla cifra precedente
+
+    % \immediate\write18{python3 ./../scripts/SottrazioneBinaria.py "41-18" > temp/ex_sottrazione.tex}
+    % \input{./temp/ex_sottrazione.tex}
+
+\end{esercizio}
+
+\newpage
+
+\begin{multicols}{2}
+    % \immediate\write18{python3 generate/sottrazioni_binarie.py > temp/sottrazioni_binarie.tex}
+    % \input{./temp/sottrazioni_binarie.tex}
+\end{multicols}
+
+\newpage
+
+\section{Moltiplicazione}
+
+Effettua le seguenti moltiplicazioni in binario:
+
+\begin{esercizio}[1]
+    \textbf{Esercizio guidato}
+
+    41 x 9
+
+    Come prima cosa convertiamo i due numeri da decimale a binario
+
+    % \immediate\write18{python3 ./../scripts/Dec2Bin.py 41 > temp/ex_dec2bin41.tex}
+    % \input{./temp/ex_dec2bin41.tex}
+
+    % \immediate\write18{python3 ./../scripts/Dec2Bin.py 9 > temp/ex_dec2bin9.tex}
+    % \input{./temp/ex_dec2bin9.tex}
+
+    % Andiamo ad eseguire la moltiplicazione del primo numero per ogni bit del secondo, ricordandosi di spostarsi di una posizione ogni volta.
+
+    % Al termine di deve eseguire la somma in colonna, qual'ora le righe risultimo molte conviene fare due righe per volta
+
+    % \immediate\write18{python3 ./../scripts/MoltiplicazioneBinaria.py "41x9" > temp/ex_moltiplicazione.tex}
+    % \input{./temp/ex_moltiplicazione.tex}
+
+\end{esercizio}
+
+\newpage
+
+\begin{multicols}{2}
+    % \immediate\write18{python3 generate/moltiplicazioni_binarie.py > temp/moltiplicazioni_binarie.tex}
+    % \input{./temp/moltiplicazioni_binarie.tex}
+\end{multicols}
+
+\newpage
+
+\section{Divisione}
+
+Effettua le seguenti divisioni in binario:
+
+\begin{esercizio}[1]
+    \textbf{Esercizio guidato}
+
+    41 : 9
+
+    Come prima cosa convertiamo i due numeri da decimale a binario
+
+    % \immediate\write18{python3 ./../scripts/Dec2Bin.py 41 > temp/ex_dec2bin41.tex}
+    % \input{./temp/ex_dec2bin41.tex}
+
+    % \immediate\write18{python3 ./../scripts/Dec2Bin.py 9 > temp/ex_dec2bin9.tex}
+    % \input{./temp/ex_dec2bin9.tex}
+
+    % Abbasso un bit alla volta fino a quando ottengo un numero maggiore o uguale del divisore, per ogni bit che abbasso mi segno uno 0 aggiunto un numero adatto mi segno un 1, scrivo il divisore sotto al numero stando attento di allineare le colonne e effettuo la sottrazione; ripeto le operazioni fino all'ultimo bit; 
+    
+    % Il risultato sarà composto da quoziente e resto.
+
+    % \immediate\write18{python3 ./../scripts/DivisioneBinaria.py "41:9" > temp/ex_divisione.tex}
+    % \input{./temp/ex_divisione.tex}
+\end{esercizio}
+
+\newpage
+
+\begin{multicols}{2}
+    % \immediate\write18{python3 generate/divisioni_binarie.py > temp/divisioni_binarie.tex}
+    % \input{./temp/divisioni_binarie.tex}
+\end{multicols}
+
+
+%----------------------------------------------------------------------------------------
+%	CHAPTER 8
+%----------------------------------------------------------------------------------------
+
+% \chapter{Rilevazione e correzione errori}
+
+% \section{Bit di parità}
+
+% \section{CRC}
+
+% \section{LRC}
+
+%----------------------------------------------------------------------------------------
+%	PART 3
+%----------------------------------------------------------------------------------------
+
+% \partimage{chapter_images/sistema_binario.jpg}
+
+\part{Sistema operativo}
+
+%----------------------------------------------------------------------------------------
+%	CHAPTER 9
+%----------------------------------------------------------------------------------------
+
+% \chapterimage{chapter_head_1.pdf}
+\chapter{Scheduling}
+
+\section{FCFS, SJF, SRTF}
+
+Effettua lo schedeuling dei seguenti processi, usando l'algoritmo FCFS, SJF e SRTF:
+
+\begin{multicols}{2}
+    % \immediate\write18{python3 generate/sheduling1.py > temp/sheduling1.tex}
+    % \input{./temp/sheduling1.tex}
+\end{multicols}
+
+\newpage
+
+\section{Round Robin}
+
+Effettua lo schedeuling dei seguenti processi, usando l'algoritmo Round Robin con t=2 e t=3
+
+\begin{multicols}{2}
+    % \immediate\write18{python3 generate/sheduling2.py > temp/sheduling2.tex}
+    % \input{./temp/sheduling2.tex}
+\end{multicols}
+
+%----------------------------------------------------------------------------------------
+%	CHAPTER 10
+%----------------------------------------------------------------------------------------
+
+% \chapterimage{chapter_head_1.pdf}
+\chapter{Gestione memoria}
+
+\section{Memoria a partizione fisse}
+
+Mostra l'evoluzione della memoria dati i seguenti processi e la seguente memoria a partizioni fisse
+
+% \immediate\write18{python3 generate/allocazione_fisse.py > temp/allocazione_fisse.tex}
+% \input{./temp/allocazione_fisse.tex}
+
+\newpage
+
+\section{Memoria a partizione variabili}
+
+Mostra l'evoluzione della memoria dati i seguenti processi e la seguente memoria a partizioni variabili
+
+% \immediate\write18{python3 generate/allocazione_dinamiche.py > temp/allocazione_dinamiche.tex}
+% \input{./temp/allocazione_dinamiche.tex}
+
+
+
+\end{document}
