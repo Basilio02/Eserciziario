@@ -1,1 +1,11 @@
 */temp/*
+scripts/__pycache__/*
+
+*/*.fls
+*/*.aux
+*/*.toc
+*/*.ptc
+*/*.log
+*/*.fsl
+*/*.gz
+*/*.fdb_latexmk
