@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Esercizi</title>
+<meta name="description" content="Raccolta di esercizi in PDF">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f6f8fc;
+    --grid: #dde5f1;
+    --ink: #1b2a4a;
+    --ink-soft: #55627d;
+    --margin: #d64545;
+    --accent: #2f5bea;
+    --accent-ink: #ffffff;
+    --row: #ffffff;
+    --row-border: #d3dceb;
+    --head: "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
+    --body: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  :root:not([data-theme="light"]) {
+    color-scheme: light dark;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #141a2b;
+      --grid: #1f2841;
+      --ink: #e8edf8;
+      --ink-soft: #97a3bf;
+      --margin: #ff7a7a;
+      --accent: #7b9cff;
+      --accent-ink: #0f1526;
+      --row: #1a2136;
+      --row-border: #2a3452;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-padding-top: 1rem; }
+  body {
+    margin: 0;
+    font-family: var(--body);
+    color: var(--ink);
+    background-color: var(--paper);
+    /* carta a quadretti */
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 28px 28px;
+    line-height: 1.5;
+  }
+
+  .page {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 3.5rem 1.25rem 4rem;
+    position: relative;
+  }
+  /* il margine rosso del quaderno */
+  .page::before {
+    content: "";
+    position: absolute;
+    top: 0; bottom: 0;
+    left: 0.6rem;
+    width: 2px;
+    background: var(--margin);
+    opacity: .55;
+  }
+
+  header { margin-bottom: 2rem; padding-left: 1rem; }
+  h1 {
+    font-family: var(--head);
+    font-weight: 700;
+    font-size: clamp(2.2rem, 7vw, 3.4rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 0 0 .5rem;
+  }
+  .sub { margin: 0; color: var(--ink-soft); font-size: 1.05rem; max-width: 52ch; }
+
+  .search {
+    margin: 0 0 1.75rem 1rem;
+  }
+  .search input {
+    width: 100%;
+    font: inherit;
+    padding: .7rem .95rem;
+    color: var(--ink);
+    background: var(--row);
+    border: 1.5px solid var(--row-border);
+    border-radius: 8px;
+  }
+  .search input:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+  section { margin: 0 0 2rem 1rem; }
+  h2 {
+    font-family: var(--head);
+    font-size: 1.35rem;
+    font-weight: 600;
+    margin: 0 0 .6rem;
+    padding-bottom: .35rem;
+    border-bottom: 2px solid var(--ink);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+  }
+  h2 .count { font-family: var(--body); font-size: .9rem; font-weight: 500; color: var(--ink-soft); }
+
+  ul { list-style: none; margin: 0; padding: 0; }
+  li {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    padding: .7rem .9rem;
+    margin-bottom: .5rem;
+    background: var(--row);
+    border: 1.5px solid var(--row-border);
+    border-radius: 8px;
+  }
+  .name { flex: 1; min-width: 0; }
+  .name a {
+    color: var(--ink);
+    font-weight: 600;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+  .name a:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+  .name a:focus-visible, .dl:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+  .size { color: var(--ink-soft); font-size: .85rem; white-space: nowrap; }
+  .dl {
+    background: var(--accent);
+    color: var(--accent-ink);
+    font-weight: 600;
+    font-size: .9rem;
+    text-decoration: none;
+    padding: .4rem .8rem;
+    border-radius: 6px;
+    white-space: nowrap;
+  }
+  .dl:hover { filter: brightness(1.1); }
+
+  .empty {
+    margin-left: 1rem;
+    padding: 1.1rem 1.25rem;
+    background: var(--row);
+    border: 1.5px dashed var(--row-border);
+    border-radius: 8px;
+    color: var(--ink-soft);
+  }
+  code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .9em; }
+
+  footer { margin: 3rem 0 0 1rem; color: var(--ink-soft); font-size: .85rem; }
+
+  @media (max-width: 480px) {
+    .size { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <!-- Modifica qui titolo e sottotitolo -->
+    <h1 id="titolo">Eserciari</h1>
+    <p class="sub" id="sottotitolo">
+      Qui trovi gli eserciziari preparati per te.
+    </p>
+  </header>
+
+  <div class="search">
+    <input id="cerca" type="search" placeholder="Cerca un foglio di esercizi" aria-label="Cerca un foglio di esercizi" autocomplete="off">
+  </div>
+
+  <main id="elenco" aria-live="polite"></main>
+
+  <footer id="aggiornato"></footer>
+</div>
+
+<script>
+(function () {
+  var elenco = document.getElementById("elenco");
+  var cerca = document.getElementById("cerca");
+  var aggiornato = document.getElementById("aggiornato");
+  var files = [];
+
+  function norm(s) {
+    return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  }
+
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  }
+
+  function messaggioVuoto(html) {
+    elenco.innerHTML = "";
+    var d = el("div", "empty");
+    d.innerHTML = html;
+    elenco.appendChild(d);
+  }
+
+  function render() {
+    var q = norm(cerca.value.trim());
+    var visibili = files.filter(function (f) {
+      return !q || norm(f.title).indexOf(q) !== -1 || norm(f.category).indexOf(q) !== -1;
+    });
+
+    if (!files.length) {
+      messaggioVuoto("Nessun PDF trovato. Aggiungi i PDF al progetto e lancia <code>node genera-sito.js</code>.");
+      return;
+    }
+    if (!visibili.length) {
+      messaggioVuoto("Nessun risultato per “" + cerca.value.replace(/</g, "&lt;") + "”. Prova con un'altra parola.");
+      return;
+    }
+
+    var gruppi = {}, ordine = [];
+    visibili.forEach(function (f) {
+      if (!gruppi[f.category]) { gruppi[f.category] = []; ordine.push(f.category); }
+      gruppi[f.category].push(f);
+    });
+
+    elenco.innerHTML = "";
+    ordine.forEach(function (cat) {
+      var sec = el("section");
+      var h2 = el("h2", null, cat);
+      h2.appendChild(el("span", "count", gruppi[cat].length + (gruppi[cat].length === 1 ? " file" : " file")));
+      sec.appendChild(h2);
+
+      var ul = el("ul");
+      gruppi[cat].forEach(function (f) {
+        var li = el("li");
+        var name = el("div", "name");
+        var a = el("a", null, f.title);
+        a.href = f.url;
+        a.target = "_blank";
+        a.rel = "noopener";
+        name.appendChild(a);
+        li.appendChild(name);
+        li.appendChild(el("span", "size", f.size));
+        var dl = el("a", "dl", "Scarica");
+        dl.href = f.url;
+        dl.setAttribute("download", "");
+        dl.setAttribute("aria-label", "Scarica " + f.title);
+        li.appendChild(dl);
+        ul.appendChild(li);
+      });
+      sec.appendChild(ul);
+      elenco.appendChild(sec);
+    });
+  }
+
+  fetch("pdfs.json", { cache: "no-cache" })
+    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function (data) {
+      files = data.files || [];
+      if (data.generated) {
+        var d = new Date(data.generated);
+        aggiornato.textContent = "Ultimo aggiornamento: " + d.toLocaleDateString("it-IT", { day: "numeric", month: "long", year: "numeric" });
+      }
+      render();
+    })
+    .catch(function () {
+      messaggioVuoto("Non riesco a caricare l'elenco dei file. Controlla che <code>pdfs.json</code> sia presente accanto a <code>index.html</code>.");
+    });
+
+  cerca.addEventListener("input", render);
+})();
+</script>
+</body>
+</html>

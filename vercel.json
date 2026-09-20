@@ -1,0 +1,5 @@
+{
+    "buildCommand": "node genera-sito.js",
+    "outputDirectory": "_site",
+    "cleanUrls": true
+}
