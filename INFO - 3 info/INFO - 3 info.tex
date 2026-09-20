@@ -21,7 +21,13 @@
                 \Huge\centering\bfseries\sffamily\parbox[c][][t]{\paperwidth}
                 {
                     \centering 
-                    {\Huge Eserciziario}
+                    {
+                        \Huge 
+                        \ifsoluzioni
+                            Soluzioni
+                        \fi
+                        Eserciziario
+                    }
                     \\[15pt]
                     {\Huge TPS}
                     \\[15pt]
@@ -87,32 +93,13 @@ Dato il seguente alfabeto sorgente T e alfabeto codifica E,
 \begin{esercizio}[1]
     \textbf{Esercizio guidato}
 
-    $T = \{ LUN, MAR, MER, GIO, VEN \} $
-    
-    $E = \{ G, H \} $ \\
+    Esercizio
 
-    Poichè $|T| = 5$ e $|E| = 2$, applicando la formula posso calcolare la lunghezza minima per una codifica a lunghezza fissa:
-        $m = \lceil log_{|E|}{(|T|)} \rceil = \lceil log_2{(5)} \rceil \approx 2.3 \xrightarrow{} 3$
-        
-    Infatti  $|E|^{m} = 2^3 = 8 > |T| = 5$ \\
+    \ifsoluzioni
+        \solution
 
-    Posso proporre una possibile codifica a lunghezza fissa, in cui ogni codifica è lunghezza 3 caratteri dell'alfabeto codifica:
-    \begin{itemize}
-        \item LUN = GGG
-        \item MAR = GGH
-        \item MER = GHG
-        \item GIO = GHH
-        \item VEN = HGG
-    \end{itemize}
-
-    Posso proporre una possibile codifica a lunghezza varibile, in cui ogni codifica è lunghezza massima di 3 caratteri dell'alfabeto codifica:
-    \begin{itemize}
-        \item LUN = G
-        \item MAR = GH
-        \item MER = HG
-        \item GIO = HH
-        \item VEN = H
-    \end{itemize}
+        ECCO LA SOLUZIONE
+    \fi
 \end{esercizio}
 
 \newpage
