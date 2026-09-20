@@ -309,6 +309,30 @@
 \newcounter{esercizio}[section]                                    % Contatore progressivo per sezione
 \renewcommand{\theesercizio}{\arabic{esercizio}}
 
+\newif\ifsoluzioni
+\ifdefined\soluzioni
+    \soluzionitrue
+\else
+    \soluzionifalse
+\fi
+
+\newcommand{\eserciziopy}[1]{%
+    \ifsoluzioni
+        \immediate\write18{python3 generate/#1.py --soluzioni > temp/#1_sol.tex}
+        \input{temp/#1_sol.tex}
+    \else
+        \immediate\write18{python3 generate/#1.py > temp/#1.tex}
+        \input{temp/#1.tex}
+    \fi
+}
+
+\newcommand{\solution}{
+    
+    \vspace{0.15cm}
+    \underline{\textbf{SOLUZIONE}}
+    \vspace{0.15cm}
+}
+
 \newenvironment{esercizio}[1][]{
     \vspace{0.25cm}
     \refstepcounter{esercizio}

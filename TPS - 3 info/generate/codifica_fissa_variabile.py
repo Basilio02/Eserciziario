@@ -40,9 +40,17 @@ es = [
     [3, "insieme di tutte le lettere dell'alfabeto italiano", "A, B, C, D"],
 ]
 
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--soluzioni", action="store_true")
+args = parser.parse_args()
+
 for s in es:
     print("""\\begin{esercizio}[""" + str(s[0]) + """]
     $T = \\{ """ + s[1].replace(' ', '\ ')  + """ \\} $ \\\\
     $E = \\{ """ + s[2]+ """ \\} $
 \\end{esercizio}
 """)
+    if args.soluzioni:
+        print("SOLUZIONI")

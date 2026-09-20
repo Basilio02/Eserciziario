@@ -261,6 +261,13 @@ sys.path.insert(0, str(SCRIPT_DIR))
 # Ora puoi importare ProcessTable
 from AllocPartFiss import generateLatex
 
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--soluzioni", action="store_true")
+args = parser.parse_args()
+
+
 for es in esercizi_partizioni:
     print("""\\begin{esercizio}[""" + str(es[0]) + """]
     """ + generateLatex(es[1]) + """

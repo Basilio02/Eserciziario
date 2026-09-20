@@ -1,4 +1,4 @@
-def main(expr, spaces=1):
+def generateLatex(expr):
     parts = expr.split('+')
     a = int(parts[0].strip())
     b = int(parts[1].strip())
@@ -33,25 +33,31 @@ def main(expr, spaces=1):
         bin_b = " " + bin_b
         result.insert(0, " ")
 
-    print("    " * spaces + "{")
-    print("    " * (spaces + 1) + "\\vspace{0.25cm}")
-    print("    " * (spaces + 1) + "\\textbf{" + expr + "}")
-    print("    " * (spaces + 1))
-    print("    " * (spaces + 2) + "\\begin{tabular}{" + "c" * max_len + "l}")
-    print("    " * (spaces + 3) + " & ".join(carry_line[1:]) + " & & carry" + "\\\\")
-    print("    " * (spaces + 3) + " & ".join(bin_a) + " & + " + "\\\\")
-    print("    " * (spaces + 3) + " & ".join(bin_b) + " & = " + "\\\\")
-    print("    " * (spaces + 3) + "\\hline")
-    print("    " * (spaces + 3) + " & ".join(result) + " & " + "\\\\")
-    print("    " * (spaces + 2) + "\\end{tabular}")
-    print("    " * spaces + "}")
-    print("    " * spaces)
+    res = []
+    res.append("{")
+    res.append("$" + str(a) + "_{10} = " + str(bin_a).strip() + "_{2} $\\\\")
+    res.append("$" + str(b) + "_{10} = " + str(bin_b).strip() + "_{2} $\\\\")
+    res.append("")
+    res.append("\\begin{tabular}{" + "c" * max_len + "l}")
+    res.append(" & ".join(carry_line[1:]) + " & & carry" + "\\\\")
+    res.append(" & ".join(bin_a) + " & + " + "\\\\")
+    res.append(" & ".join(bin_b) + " & = " + "\\\\")
+    res.append("\\hline")
+    res.append(" & ".join(result) + " & " + "\\\\")
+    res.append("\\end{tabular}")
+    res.append("}")
+    res.append("")
 
-#main("11+21", spaces=2)
+    return "\n".join(res)
+
+def main(expr):
+    print(generateLatex(expr))
+
+#main("11+21")
 
 import sys
 
-# ha un parametro
-if len(sys.argv) >= 2:
-    nums = sys.argv[1]
-    main(nums, 0)
+if __name__ == "__main__":
+    if len(sys.argv) >= 2:
+        nums = sys.argv[1]
+        main(nums)
