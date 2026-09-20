@@ -1,3 +1,16 @@
+# Aggiunta dinamica degli scripts
+import sys
+from pathlib import Path
+BATE_DIR = Path(__file__).resolve().parents[2]
+TCRIPT_DIR = BATE_DIR / "scripts"
+sys.path.insert(0, str(TCRIPT_DIR))
+
+# Gestione del parametro --soluzioni
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument("--soluzioni", action="store_true")
+args = parser.parse_args()
+
 esercizi_partizioni = [
     # =========================
     # Difficoltà 1
@@ -250,23 +263,8 @@ P12,580
 """]
 ]
 
-import sys
-from pathlib import Path
 
-# Aggiungi la cartella "scripts" al path, partendo da questo file
-BASE_DIR = Path(__file__).resolve().parents[2]  # torna a project_root
-SCRIPT_DIR = BASE_DIR / "scripts"
-sys.path.insert(0, str(SCRIPT_DIR))
-
-# Ora puoi importare ProcessTable
 from AllocPartFiss import generateLatex
-
-import argparse
-
-parser = argparse.ArgumentParser()
-parser.add_argument("--soluzioni", action="store_true")
-args = parser.parse_args()
-
 
 for es in esercizi_partizioni:
     print("""\\begin{esercizio}[""" + str(es[0]) + """]

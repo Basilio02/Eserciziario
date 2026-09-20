@@ -1,3 +1,16 @@
+# Aggiunta dinamica degli scripts
+import sys
+from pathlib import Path
+BATE_DIR = Path(__file__).resolve().parents[2]
+TCRIPT_DIR = BATE_DIR / "scripts"
+sys.path.insert(0, str(TCRIPT_DIR))
+
+# Gestione del parametro --soluzioni
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument("--soluzioni", action="store_true")
+args = parser.parse_args()
+
 es = [
     # Difficoltà 1
     [1, "1, 2, 3, 4, 5", "A, B"],
@@ -39,12 +52,6 @@ es = [
     [3, "\\infty, \\emptyset, \\forall, \\exists, \\neg, \\wedge", "X, Y, Z, W"],
     [3, "insieme di tutte le lettere dell'alfabeto italiano", "A, B, C, D"],
 ]
-
-import argparse
-
-parser = argparse.ArgumentParser()
-parser.add_argument("--soluzioni", action="store_true")
-args = parser.parse_args()
 
 for s in es:
     print("""\\begin{esercizio}[""" + str(s[0]) + """]

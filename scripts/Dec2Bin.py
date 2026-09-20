@@ -25,7 +25,7 @@ def main(params, spaces):
 
 import sys
 
-# ha un parametro
-if len(sys.argv) >= 2:
-    num = int(sys.argv[1])
-    main(num, 0)
+if __name__ == "__main__":
+    if len(sys.argv) >= 2:
+        num = int(sys.argv[1])
+        main(num, 0)

@@ -23,13 +23,13 @@ def binary_long_division_steps(a, b):
     R = current if current != "" else "0"
     return A, B, Q, R, steps
 
-def main(expr, spaces=0):
-    
+def generateLatex(expr):
+
     parts = expr.split(':')
     a = int(parts[0].strip())
     b = int(parts[1].strip())
-    
-    
+
+
     A, B, Q, R, steps = binary_long_division_steps(a, b)
 
     la = len(A)
@@ -40,24 +40,21 @@ def main(expr, spaces=0):
     left_cols = la
     # parte destra avrà colonne pari al massimo tra divisore e quoziente
     right_cols = max(lb, lq)
-
-    ind = "    " * spaces
     lines = []
-    lines.append(ind + "{")
+    lines.append("{")
 
-    lines.append("    " * (spaces + 1) + "\\vspace{0.25cm}")
-    lines.append("    " * (spaces + 1) + "\\textbf{" + expr + "}")
-    lines.append("    " * (spaces + 1))    
-    
-    lines.append(ind + "    \\begin{tabular}{" + "c" * left_cols + "|" + "c" * right_cols + "}")
+    lines.append("$" + str(a) + "_{10} = " + str(A).strip() + "_{2} $\\\\")
+    lines.append("$" + str(b) + "_{10} = " + str(B).strip() + "_{2} $\\\\")
+
+    lines.append("\\begin{tabular}{" + "c" * left_cols + "|" + "c" * right_cols + "}")
 
     # --- PRIMA RIGA: dividendo | divisore (divisore right-justified nella parte destra) ---
     left_row = list(A)  # direttamente una cella per cifra del dividendo
     # right: right-justify B in right_cols
     right_row = list(B) + [""] * (right_cols - lb)
-    lines.append(ind + "        " + " & ".join(left_row) + " & " + " & ".join(right_row) + " \\\\")
-    lines.append(ind + "        \\hline")
-    lines.append(ind + "        \\hline")
+    lines.append(" & ".join(left_row) + " & " + " & ".join(right_row) + " \\\\")
+    lines.append("\\hline")
+    lines.append("\\hline")
 
     # --- PASSI: per ogni step mostro il blocco corrente e, se sottrazione,
     #     la riga con il divisore allineata allo stesso start ---
@@ -70,7 +67,7 @@ def main(expr, spaces=0):
                 row[pos] = ch
         # nella parte destra non mostriamo nulla (è la zona del divisore/quoziente)
         right_empty = [""] * right_cols
-        lines.append(ind + "        " + " & ".join(row) + " & " + " & ".join(right_empty) + " \\\\")
+        lines.append(" & ".join(row) + " & " + " & ".join(right_empty) + " \\\\")
         # se c'è stata sottrazione, mostro il divisore posizionato sotto lo stesso start
         if diff is not None:
             row_b = [""] * left_cols
@@ -78,27 +75,31 @@ def main(expr, spaces=0):
                 pos = start + j + len(cur) - len(B)
                 if 0 <= pos < left_cols:
                     row_b[pos] = ch
-            lines.append(ind + "        " + " & ".join(row_b) + " & " + " & ".join(right_empty) + " \\\\")
-            lines.append(ind + "        \\hline")
+            lines.append(" & ".join(row_b) + " & " + " & ".join(right_empty) + " \\\\")
+            lines.append("\\hline")
 
     # --- LINEA FINALE: resto | quoziente
     # resto: right-justify in left_cols
     rest_row = [""] * (left_cols - len(R)) + list(R)
     # quoziente: right-justify in right_cols (così è vicino alla barra)
     quot_row = [""] * (right_cols - len(Q)) + list(Q)
-    lines.append(ind + "        \\hline")
-    lines.append(ind + "        " + " & ".join(rest_row) + " & " + " & ".join(quot_row) + " \\\\")
-    lines.append(ind + "    \\end{tabular}")
-    lines.append(ind + "}")
+    lines.append("\\hline")
+    lines.append(" & ".join(rest_row) + " & " + " & ".join(quot_row) + " \\\\")
+    lines.append("\\end{tabular}")
+    lines.append("}")
     lines.append("")
 
-    print("\n".join(lines))
+    return "\n".join(lines)
 
-# main("11:21", spaces=2)
+def main(expr):
+    print(generateLatex(expr))
+
+# main("11:21")
 
 import sys
 
 # ha un parametro
-if len(sys.argv) >= 2:
-    nums = sys.argv[1]
-    main(nums, 0)
+if __name__ == "__main__":
+    if len(sys.argv) >= 2:
+        nums = sys.argv[1]
+        main(nums)

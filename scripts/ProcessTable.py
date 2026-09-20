@@ -13,36 +13,37 @@ def parse_csv(csv_string: str):
         processes.append(Process(name, int(arrival), int(burst)))
     return processes
 
-def generateLatex(params, spaces=1):
+def generateLatex(params):
     processes = parse_csv(params)
 
     res = []
-    res.append("    " * spaces + "{")
-    res.append("    " * (spaces + 1) + "\\begin{tabular}{|l|c|c|}")
-    res.append("    " * (spaces + 2) + "\\hline")
-    res.append("    " * (spaces + 2) + "\\textbf{Processo} & \\textbf{Arrivo} & \\textbf{Burst} \\\\")
-    res.append("    " * (spaces + 2) + "\\hline")
+    res.append("{")
+    res.append("\\begin{tabular}{|l|c|c|}")
+    res.append("\\hline")
+    res.append("\\textbf{Processo} & \\textbf{Arrivo} & \\textbf{Burst} \\\\")
+    res.append("\\hline")
     for i in range(len(processes)):
-        res.append("    " * (spaces + 2) + f"{processes[i].name} & {processes[i].arrival} & {processes[i].burst} \\\\")
-    res.append("    " * (spaces + 2) + "\\hline")
-    res.append("    " * (spaces + 1) + "\\end{tabular}")
-    res.append("    " * spaces + "}")
+        res.append(f"{processes[i].name} & {processes[i].arrival} & {processes[i].burst} \\\\")
+    res.append("\\hline")
+    res.append("\\end{tabular}")
+    res.append("}")
 
     return "\n".join(res)
 
-def main(params, spaces = 1):
-    print(generateLatex(params, spaces))
+def main(params):
+    print(generateLatex(params))
 
 # main("""P1,0,6
 # P2,1,4
 # P3,2,2
 # P4,2,5
 # P5,5,3
-# P6,5,5""", 2)
+# P6,5,5""")
 
 import sys
 
 # ha un parametro
-if len(sys.argv) >= 2:
-    nums = sys.argv[1]
-    main(nums, 0)
+if __name__ == "__main__":
+    if len(sys.argv) >= 2:
+        nums = sys.argv[1]
+        main(nums)

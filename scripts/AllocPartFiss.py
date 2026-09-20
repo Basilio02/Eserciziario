@@ -37,15 +37,15 @@ def build_memory_map(partitions: int, processes: list[Process]):
     
     return result
 
-def generateMemory(memory, partitions, spaces):
+def generateMemory(memory, partitions):
 
     res = []
 
-    res.append("    " * (spaces + 1) + "\\begin{tikzpicture}[")
-    res.append("    " * (spaces + 2) + "label/.style={font=\\tiny, anchor=west},")
-    res.append("    " * (spaces + 2) + "proc/.style={fill=blue!30, draw=blue, thick, minimum width=2cm},")
-    res.append("    " * (spaces + 2) + "free/.style={fill=gray!20, draw=gray, thick, minimum width=2cm}")
-    res.append("    " * (spaces + 1) + "]")
+    res.append("\\begin{tikzpicture}[")
+    res.append("label/.style={font=\\tiny, anchor=west},")
+    res.append("proc/.style={fill=blue!30, draw=blue, thick, minimum width=2cm},")
+    res.append("free/.style={fill=gray!20, draw=gray, thick, minimum width=2cm}")
+    res.append("]")
     
     height_pet_unit = 8 / sum(partitions)
     
@@ -63,25 +63,25 @@ def generateMemory(memory, partitions, spaces):
             node_name = f"p{i}"
 
         if prev_node is None:
-            res.append("    " * (spaces + 2) + f"\\node[{style}, minimum height={h:.3f}cm] ({node_name}) at (0,0,) {{{text}}};")
+            res.append(f"\\node[{style}, minimum height={h:.3f}cm] ({node_name}) at (0,0,) {{{text}}};")
         else:
-            res.append("    " * (spaces + 2) + f"\\node[{style}, minimum height={h:.3f}cm, below=0pt of {prev_node}] ({node_name}) {{{text}}};")
+            res.append(f"\\node[{style}, minimum height={h:.3f}cm, below=0pt of {prev_node}] ({node_name}) {{{text}}};")
         
         prev_node = node_name
 
-    res.append("    " * (spaces + 2) + "")
+    res.append("")
     
     # Etichette di indirizzo (solo inizio di ogni blocco)
     for i, b in enumerate(memory):
         node_name = f"f{i}" if b.name == "FREE" else f"p{i}"
         size = partitions[i]
         
-        res.append("    " * (spaces + 2) + f"\\node[label] at ({node_name}.east) {{{size}}};")
+        res.append(f"\\node[label] at ({node_name}.east) {{{size}}};")
         
         if i == len(memory) - 1:
-            res.append("    " * (spaces + 2) + f"\\node[label] at ([xshift=1cm]{node_name}.south) {{}};")
+            res.append(f"\\node[label] at ([xshift=1cm]{node_name}.south) {{}};")
     
-    res.append("    " * (spaces + 1) + "\\end{tikzpicture}")
+    res.append("\\end{tikzpicture}")
     return "\n".join(res)
 
 def free_process(mem, process_name):
@@ -162,7 +162,7 @@ def apply_operations(initial_memory, partitions, operations, alg):
     
     return states
 
-def generateLatex(params, spaces = 1):
+def generateLatex(params):
     p = params.split(";")
     
     alg, num_part, sol = p[0].split(",")
@@ -177,34 +177,34 @@ def generateLatex(params, spaces = 1):
 
     res = []
     if sol == "T":
-        res.append("    " * (spaces + 2) + "\\begin{minipage}[t]{0.45\\textwidth}")
-        res.append("    " * (spaces + 3) + "\\begin{itemize}")
+        res.append("\\begin{minipage}[t]{0.45\\textwidth}")
+        res.append("\\begin{itemize}")
         for o in operations:
             if o.size == None:
-                res.append("    " * (spaces + 4) + f"\\item {o.name} esce")
-                res.append("    " * (spaces + 4) + "\\vspace{0.1cm}")
+                res.append(f"\\item {o.name} esce")
+                res.append("\\vspace{0.1cm}")
             else:
-                res.append("    " * (spaces + 4) + f"\\item {o.name} di dimensione {o.size}Kb")
-                res.append("    " * (spaces + 4) + "\\vspace{0.1cm}")
-        res.append("    " * (spaces + 3) + "\\end{itemize}")
-        res.append("    " * (spaces + 2) + "\\end{minipage}")
-        res.append("    " * (spaces + 2) + "\\hfill")
-        res.append("    " * (spaces + 2) + "\\begin{minipage}[t]{0.45\\textwidth}")
-        res.append("    " * (spaces + 3) + "\\vspace{-0.5cm}")
-        res.append(generateMemory(memory, partitions, spaces + 3))
-        res.append("    " * (spaces + 2) + "\\end{minipage}")
-        # res.append("    " * (spaces + 3) + "\\vspace{-0.5cm}")
+                res.append(f"\\item {o.name} di dimensione {o.size}Kb")
+                res.append("\\vspace{0.1cm}")
+        res.append("\\end{itemize}")
+        res.append("\\end{minipage}")
+        res.append("\\hfill")
+        res.append("\\begin{minipage}[t]{0.45\\textwidth}")
+        res.append("\\vspace{-0.5cm}")
+        res.append(generateMemory(memory, partitions))
+        res.append("\\end{minipage}")
+        # res.append("\\vspace{-0.5cm}")
 
     if sol == "S":
         evolution = apply_operations(memory, partitions, operations, alg)
         for m in evolution:
-            res.append("    " * (spaces + 1) + "\\scalebox{0.8}{\\begin{minipage}{3cm}\\centering")
-            res.append(generateMemory(m, partitions, spaces + 1))
-            res.append("    " * (spaces + 1) + "\\end{minipage}}\\hspace{0.5cm}")
+            res.append("\\scalebox{0.8}{\\begin{minipage}{3cm}\\centering")
+            res.append(generateMemory(m, partitions))
+            res.append("\\end{minipage}}\\hspace{0.5cm}")
     return "\n".join(res)
 
-def main(params, spaces = 1):
-    print(generateLatex(params, spaces))
+def main(params):
+    print(generateLatex(params))
 
 
 
@@ -234,6 +234,7 @@ def main(params, spaces = 1):
 import sys
 
 # ha un parametro
-if len(sys.argv) >= 2:
-    nums = sys.argv[1]
-    main(nums, 0)
+if __name__ == "__main__":
+    if len(sys.argv) >= 2:
+        nums = sys.argv[1]
+        main(nums)

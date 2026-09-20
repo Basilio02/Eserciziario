@@ -1,3 +1,16 @@
+# Aggiunta dinamica degli scripts
+import sys
+from pathlib import Path
+BATE_DIR = Path(__file__).resolve().parents[2]
+TCRIPT_DIR = BATE_DIR / "scripts"
+sys.path.insert(0, str(TCRIPT_DIR))
+
+# Gestione del parametro --soluzioni
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument("--soluzioni", action="store_true")
+args = parser.parse_args()
+
 esercizi = [
     # =========================
     # Difficoltà 1

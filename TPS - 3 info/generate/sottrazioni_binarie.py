@@ -1,3 +1,16 @@
+# Aggiunta dinamica degli scripts
+import sys
+from pathlib import Path
+BATE_DIR = Path(__file__).resolve().parents[2]
+TCRIPT_DIR = BATE_DIR / "scripts"
+sys.path.insert(0, str(TCRIPT_DIR))
+
+# Gestione del parametro --soluzioni
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument("--soluzioni", action="store_true")
+args = parser.parse_args()
+
 sottrazioni = [
     # Difficoltà 1 (facili, senza prestito o prestito semplice)
     [1, "15 - 7"],
@@ -46,8 +59,24 @@ sottrazioni = [
     [3, "243 - 195"]
 ]
 
+from SottrazioneBinaria import generateLatex
+
+
+if not args.soluzioni:
+    print("""\\begin{multicols}{2}
+""")
+
 for s in sottrazioni:
     print("""\\begin{esercizio}[""" + str(s[0]) + """]
-    """ + s[1] + """
-\\end{esercizio}
+    """ + s[1])
+    if args.soluzioni:
+        print("\\solution")
+        print("")
+        print(generateLatex(s[1]) + "\n")
+
+    print("""\\end{esercizio}
+""")
+
+if not args.soluzioni:
+    print("""\\end{multicols}
 """)
