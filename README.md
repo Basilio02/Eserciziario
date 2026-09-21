@@ -58,7 +58,7 @@ cd TPS_2025
 
 ### 2. Aggiungere la Copertina
 
-Inserisci nella cartella appena creata un'immagine chiamata **`libro.jpg`**. Questa sarà usata come copertina del libro.
+Inserisci nella cartella appena creata un'immagine chiamata **`libro.png`**. Questa sarà usata come copertina del libro.
 
 ### 3. Copiare la Struttura Base
 
@@ -91,18 +91,32 @@ Modifica i valori RGB per cambiare il colore tema del libro.
 Alla **riga 19**, trova l'inclusione della grafica:
 
 ```latex
-\includegraphics[width=\paperwidth,height=\paperheight]{libro.jpg}
+\includegraphics[width=\paperwidth,height=\paperheight]{libro.png}
 ```
 
-Assicurati che il file `libro.jpg` nella cartella sia l'immagine che vuoi usare come copertina.
+Assicurati che il file `libro.png` nella cartella sia l'immagine che vuoi usare come copertina.
 
 #### Scrivere il Contenuto del Libro
+
+Ogni esercizio va inserito in un ambiente esercizio, specificando la difficoltà (da 1 a 3) come parametro, al suo interno scrivere il testo dell'esercizio; successivamente grazie al if soluzioni è possibile preparare anche le soluzioni per l'esercizio.
+
+```latex
+\begin{esercizio}[1]
+    Testo dell'esecizio
+    \ifsoluzioni
+        \solution
+
+        Soluzione dell'esercizio
+    \fi
+\end{esercizio}
+```
+
 
 Dopo la sezione iniziale, puoi iniziare a scrivere i capitoli e gli esercizi del tuo libro. Per includere esercizi generati dinamicamente, usa la sintassi mostrata nella sezione [Funzionamento degli Script Python](#funzionamento-degli-script-python).
 
 ### 5. Compilare il Libro
 
-Per generare il PDF, esegui lo script `generate.sh` **due volte** dalla cartella del libro:
+Per generare il PDF, esegui lo script `generate.sh` **due volte** dalla cartella del libro, per generare il file del libro e il libro con le soluzioni
 
 ```bash
 chmod +x generate.sh  # Solo la prima volta, per rendere eseguibile lo script
