@@ -29,6 +29,7 @@ repository/
 ├── Libro1/
 │   ├── libro.png
 │   ├── main.tex
+│   ├── libraries.tex
 │   ├── generate.sh
 │   └── generate/
 │       ├──script1.py
@@ -70,6 +71,7 @@ cp ../Libro1/* .
 
 In alternativa, puoi copiare manualmente i file essenziali:
 - `main.tex` (il file LaTeX principale)
+- `libraries.tex` (il file LaTeX contenente le librerie necessarie per il libro)
 - `generate.sh` (lo script di compilazione)
 
 ### 4. Personalizzare il Libro
@@ -78,7 +80,7 @@ Apri il file `main.tex` e modifica le seguenti sezioni:
 
 #### Cambiare il Colore Principale
 
-Alla **riga 5**, trova la definizione del colore:
+Nella prima riga del file `libraries.tex`, trova la definizione del colore:
 
 ```latex
 \definecolor{maincolor}{RGB}{0,102,204}
