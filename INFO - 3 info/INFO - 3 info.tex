@@ -82,6 +82,8 @@
 
 Risolvere i seguenti esercizi, scrivendo la pseudocodifica e il flowchart corrispondente.
 
+\vspace{1cm}
+
 \begin{esercizio}[1]
     Dati 4 numeri in input stampare il maggiore.
     \ifsoluzioni
@@ -93,23 +95,26 @@ Risolvere i seguenti esercizi, scrivendo la pseudocodifica e il flowchart corris
         INPUT Leggi b
         INPUT Leggi c
         INPUT Leggi d
-        
         PROCESS maggiore = a
-
         IF b > maggiore
-            TRUE
-                PROCESS maggiore = b
-            END TRUE
+            PROCESS maggiore = b
         END IF
-
+        IF c > maggiore
+            PROCESS maggiore = c
+        END IF
+        IF d > maggiore
+            PROCESS maggiore = d
+        END IF
         OUTPUT maggiore
         \end{filecontents*}
 
-        \immediate\write18{python3 ../scripts/FlowChartGenerator.py -f temp/fl1f.txt > temp/fl1f.tex}
-        \input{temp/fl1f.tex}
-
         \immediate\write18{python3 ../scripts/PseudocodeGenerator.py -f temp/fl1f.txt > temp/fl1p.tex}
         \input{temp/fl1p.tex}
+        \newpage
+
+        \immediate\write18{python3 ../scripts/FlowChartGenerator.py -f temp/fl1f.txt > temp/fl1f.tex}
+        \input{temp/fl1f.tex}
+        \newpage
     \fi
 \end{esercizio}
 
@@ -131,7 +136,7 @@ Risolvere i seguenti esercizi, scrivendo la pseudocodifica e il flowchart corris
     \fi
 \end{esercizio}
 
-\begin{esercizio}[1]
+\begin{esercizio}[2]
     Date le dimensioni di due rettangoli calcolarne l'area e determinare quale dei due ha superficie maggiore.
     \ifsoluzioni
         \solution
@@ -140,7 +145,7 @@ Risolvere i seguenti esercizi, scrivendo la pseudocodifica e il flowchart corris
     \fi
 \end{esercizio}
 
-\begin{esercizio}[1]
+\begin{esercizio}[3]
     Dati 3 numeri stampare il più piccolo, il più grande e la loro media aritmetica.
     \ifsoluzioni
         \solution

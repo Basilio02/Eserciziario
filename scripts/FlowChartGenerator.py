@@ -77,8 +77,8 @@ def parse_algorithm(source: str) -> list[object]:
         target = stack[-1].get("target")
         if target is None:
             raise ParseError(
-                f"Riga {line_no}: istruzione fuori da TRUE/FALSE. "
-                "Dopo IF devi aprire TRUE oppure FALSE."
+                f"Riga {line_no}: nessun blocco aperto in cui inserire "
+                "l'istruzione."
             )
         return target
 
@@ -96,9 +96,6 @@ def parse_algorithm(source: str) -> list[object]:
         if upper == "END IF":
             if stack[-1]["kind"] != "IF":
                 fail(line_no, "END IF senza un IF aperto.")
-            node: If = stack[-1]["node"]
-            if not node.true_branch or not node.false_branch:
-                fail(line_no, "IF richiede entrambi i rami TRUE e FALSE non vuoti.")
             stack.pop()
             continue
 
@@ -123,13 +120,6 @@ def parse_algorithm(source: str) -> list[object]:
             stack.pop()
             continue
 
-        if upper == "END TRUE" or upper == "END FALSE":
-            if stack[-1]["kind"] != "IF":
-                fail(line_no, f"{upper} senza un IF aperto.")
-            stack[-1]["target"] = None
-            stack[-1]["branch_open"] = None
-            continue
-
         # ----------------------------------------------------
         # DO-WHILE: questa verifica DEVE venire prima del WHILE
         # normale, altrimenti 'WHILE valore != 0' aprirebbe un
@@ -147,26 +137,17 @@ def parse_algorithm(source: str) -> list[object]:
             continue
 
         # ----------------------------------------------------
-        # RAMI DELL'IF
+        # ELSE: separa il ramo vero dal ramo falso dell'IF.
+        # ELSE è opzionale: senza ELSE il ramo falso resta vuoto.
         # ----------------------------------------------------
-        if upper == "TRUE":
+        if upper == "ELSE":
             if stack[-1]["kind"] != "IF":
-                fail(line_no, "TRUE deve trovarsi direttamente dentro un IF.")
-            if stack[-1].get("branch_open") is not None:
-                fail(line_no, "Chiudi il ramo precedente con END TRUE o END FALSE.")
-            node: If = stack[-1]["node"]
-            stack[-1]["target"] = node.true_branch
-            stack[-1]["branch_open"] = "TRUE"
-            continue
-
-        if upper == "FALSE":
-            if stack[-1]["kind"] != "IF":
-                fail(line_no, "FALSE deve trovarsi direttamente dentro un IF.")
-            if stack[-1].get("branch_open") is not None:
-                fail(line_no, "Chiudi il ramo precedente con END TRUE o END FALSE.")
+                fail(line_no, "ELSE deve trovarsi direttamente dentro un IF.")
+            if stack[-1]["else_seen"]:
+                fail(line_no, "Ogni IF ammette un solo ELSE.")
             node: If = stack[-1]["node"]
             stack[-1]["target"] = node.false_branch
-            stack[-1]["branch_open"] = "FALSE"
+            stack[-1]["else_seen"] = True
             continue
 
         # ----------------------------------------------------
@@ -200,8 +181,8 @@ def parse_algorithm(source: str) -> list[object]:
             stack.append({
                 "kind": "IF",
                 "node": node,
-                "target": None,
-                "branch_open": None,
+                "target": node.true_branch,
+                "else_seen": False,
                 "line": line_no,
             })
             continue
@@ -348,10 +329,23 @@ def layout_statement(diagram: Diagram, stmt: object, x: float, y: float) -> Frag
         return layout_for(diagram, stmt, x, y)
     raise TypeError(f"Nodo AST non gestito: {type(stmt).__name__}")
 
+def layout_branch(diagram: Diagram, statements: list[object], x: float, y: float) -> Fragment:
+    """Dispone un ramo dell'IF.
+
+    Se il ramo non contiene istruzioni viene inserito un nodo
+    spacer, così il ramo resta collegato al punto di join senza
+    disegnare alcun blocco.
+    """
+    if not statements:
+        spacer = diagram.add_node("spacer", "", x, y)
+        return Fragment(spacer, spacer, x, y)
+    return layout_sequence(diagram, statements, x, y)
+
 def layout_if(diagram: Diagram, stmt: If, x: float, y: float) -> Fragment:
     decision = diagram.add_node("decision", stmt.condition, x, y)
-    false_fragment = layout_sequence(diagram, stmt.false_branch, x - BRANCH_GAP, y - VERTICAL_STEP * 1.65)
-    true_fragment = layout_sequence(diagram, stmt.true_branch, x + BRANCH_GAP, y - VERTICAL_STEP * 1.65)
+    branch_y = y - VERTICAL_STEP * 1.65
+    false_fragment = layout_branch(diagram, stmt.false_branch, x - BRANCH_GAP, branch_y)
+    true_fragment = layout_branch(diagram, stmt.true_branch, x + BRANCH_GAP, branch_y)
     diagram.add_edge(decision, false_fragment.entry, "False", "branch_left")
     diagram.add_edge(decision, true_fragment.entry, "True", "branch_right")
     joint_y = min(false_fragment.bottom_y, true_fragment.bottom_y) - JOIN_GAP
@@ -452,43 +446,6 @@ def render_latex(diagram: Diagram) -> str:
 \end{{tikzpicture}}"""
 
 
-    return rf"""\documentclass[a4paper,11pt]{{article}}
-
-\usepackage[margin=1.5cm]{{geometry}}
-\usepackage[T1]{{fontenc}}
-\usepackage[utf8]{{inputenc}}
-\usepackage[italian]{{babel}}
-\usepackage{{xcolor}}
-\usepackage{{tikz}}
-\usetikzlibrary{{arrows.meta,shapes.geometric,shapes.misc,calc}}
-
-\tikzset{{
-  flow/.style={{-{{Latex[length=1.7mm]}}, thick}},
-  startstop/.style={{circle, draw=black, fill=red!20, minimum size=8mm, inner sep=1pt, align=center, font=\sffamily\small}},
-  declare/.style={{rectangle, draw=black, fill=yellow!25, minimum width=4.0cm, minimum height=10mm, text width=3.5cm, align=center, font=\sffamily\small,
-    path picture={{\draw ([xshift=2mm]path picture bounding box.north west) -- ([xshift=2mm]path picture bounding box.south west);
-                  \draw ([yshift=-2mm]path picture bounding box.north west) -- ([yshift=-2mm]path picture bounding box.north east);}}}},
-  process/.style={{rectangle, draw=black, fill=yellow!15, minimum width=3.7cm, minimum height=8mm, text width=3.2cm, align=center, font=\sffamily\small}},
-  input/.style={{trapezium, trapezium left angle=75, trapezium right angle=105, draw=black, fill=blue!20, minimum width=3.7cm, minimum height=8mm, text width=3.2cm, align=center, font=\sffamily\small}},
-  output/.style={{trapezium, trapezium left angle=75, trapezium right angle=105, draw=black, fill=green!20, minimum width=3.7cm, minimum height=8mm, text width=3.2cm, align=center, font=\sffamily\small}},
-  decision/.style={{diamond, draw=red!80!black, fill=red!25, minimum width=3.7cm, minimum height=1.35cm, text width=2.4cm, align=center, aspect=2, font=\sffamily\small}},
-  loop/.style={{chamfered rectangle, draw=brown!70!black, fill=orange!25, minimum width=4.0cm, minimum height=10mm, text width=3.4cm, align=center, font=\sffamily\small}},
-  joint/.style={{circle, draw=black, fill=red!20, minimum size=3.5mm, inner sep=0pt}},
-  label/.style={{font=\sffamily\footnotesize, fill=white, inner sep=1pt}}
-}}
-
-\begin{{document}}
-\section*{{{latex_escape(title)}}}
-\begin{{center}}
-\begin{{tikzpicture}}[x=1cm,y=1cm, scale=0.7, transform shape]
-{node_lines}
-
-{edge_lines}
-\end{{tikzpicture}}
-\end{{center}}
-\end{{document}}
-"""
-
 # ============================================================
 # PROGRAMMA PRINCIPALE
 # ============================================================
@@ -505,80 +462,79 @@ def build_diagram(ast: list[object]) -> Diagram:
 def generateLatex(code):
     ast = parse_algorithm(code)
     diagram = build_diagram(ast)
-    latex = render_latex(diagram)
-    output = Path("flowchart_generato.tex")
-    output.write_text(latex, encoding="utf-8")
-    return latex
-    # print(f"Creato: {output.resolve()}")
-    # print("Compila con: pdflatex flowchart_generato.tex")
+    return render_latex(diagram)
 
 def main(code):
     print(generateLatex(code))
 
+# main("""
+# DECLARE Integer i, j, n
+# INPUT Leggi n
+# PROCESS j <- 0
+
+# FOR i = 0 ; i < n ; i = i + 1
+#     IF i mod 2 = 0
+#         WHILE j < i
+#             PROCESS Elabora j
+#             PROCESS j <- j + 1
+#         END WHILE
+#         OUTPUT Numero pari
+#     ELSE
+#         OUTPUT Numero dispari
+#     END IF
+
+#     DO
+#         PROCESS Aggiorna valore
+#     WHILE valore != 0
+# END FOR
+
+# OUTPUT Fine algoritmo
+# """)
+
+import sys
+import argparse
+
+# ha un parametro
+def read_algorithm(args):
+    """
+    Legge l'algoritmo:
+    - da file se è stata usata l'opzione -f;
+    - direttamente dalla riga di comando altrimenti.
+    """
+
+    if args.file:
+        try:
+            with open(args.input, "r", encoding="utf-8") as file:
+                return file.read()
+        except OSError as error:
+            raise SystemExit(
+                f"Errore nell'apertura del file '{args.input}': {error}"
+            )
+
+    return args.input
 
 
+def parse_arguments():
+    parser = argparse.ArgumentParser(
+        description="Genera codice LaTeX per un flow chart."
+    )
 
-# ============================================================
-# INPUT DI ESEMPIO
-# ============================================================
-# Spazi iniziali, tab e righe vuote vengono ignorati.
-#
-# Istruzioni:
-#   DECLARE testo
-#   INPUT testo
-#   OUTPUT testo
-#   PROCESS testo
-#
-# Blocchi:
-#   IF condizione
-#       TRUE
-#           ...
-#       END TRUE
-#       FALSE
-#           ...
-#       END FALSE
-#   END IF
-#
-#   WHILE condizione
-#       ...
-#   END WHILE
-#
-#   DO
-#       ...
-#   WHILE condizione
-#
-#   FOR init ; condizione ; incremento
-#       ...
-#   END FOR
-# ============================================================
+    parser.add_argument(
+        "-f",
+        "--file",
+        action="store_true",
+        help="interpreta l'argomento input come nome di file"
+    )
 
-EXAMPLE = r"""
-DECLARE Integer i, j, n
-INPUT Leggi n
-PROCESS j <- 0
+    parser.add_argument(
+        "input",
+        help="algoritmo da elaborare oppure nome del file se si usa -f"
+    )
 
-FOR i = 0 ; i < n ; i = i + 1
-    IF i mod 2 = 0
-        TRUE
-            WHILE j < i
-                PROCESS Elabora j
-                PROCESS j <- j + 1
-            END WHILE
-            OUTPUT Numero pari
-        END TRUE
-        FALSE
-            OUTPUT Numero dispari
-        END FALSE
-    END IF
-
-    DO
-        PROCESS Aggiorna valore
-    WHILE valore != 0
-END FOR
-
-OUTPUT Fine algoritmo
-"""
+    return parser.parse_args()
 
 
 if __name__ == "__main__":
-    main(EXAMPLE)
+    args = parse_arguments()
+    algorithm = read_algorithm(args)
+    main(algorithm)

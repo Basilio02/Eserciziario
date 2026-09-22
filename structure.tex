@@ -333,37 +333,54 @@
     \vspace{0.15cm}
 }
 
-\newenvironment{esercizio}[1][]{
-    \vspace{0.25cm}
+\newenvironment{esercizio}[1][0]{
     \refstepcounter{esercizio}
-    \noindent
-    \begin{minipage}[t]{1.8cm}
-        \hspace{0.1cm}
-        \begin{tikzpicture}
-            \node[
-                fill=mainColor!60, 
-                text=white, 
-                font=\bfseries, 
-                inner sep=0,
-                minimum width=1.2cm, 
-                minimum height=0.6cm,
-                rounded corners=0.1cm
-            ] (n) at (0,0) {\theesercizio};
-            \foreach \i in {1,...,#1} {
-                \node[
-                    circle, 
-                    fill=mainColor!90,
-                    inner sep=0, 
-                    minimum size=0.2cm
-                ] at (0.3*\i-0.6, -0.45) {};
-            }
-        \end{tikzpicture}\par
-    \end{minipage}
-    \begin{minipage}[t]{\dimexpr\linewidth-2cm\relax}
-    \vspace{-.8cm}
-}{
-    \end{minipage}
     \par
+    \begin{list}{}{
+        \setlength{\leftmargin}{1.5cm}
+        \setlength{\rightmargin}{0pt}
+        \setlength{\labelwidth}{0pt}
+        \setlength{\labelsep}{0pt}
+        \setlength{\itemindent}{0pt}
+        \setlength{\listparindent}{0pt}
+        \setlength{\parsep}{0pt}
+        \setlength{\topsep}{0pt}
+        \setlength{\partopsep}{0pt}
+    }
+    \item[]
+    \noindent
+    \makebox[0pt][r]{%
+        \raisebox{-0.5cm}[0pt][0pt]{%
+            \begin{tikzpicture}
+                \node[
+                    fill=mainColor!60,
+                    text=white,
+                    font=\bfseries,
+                    inner sep=0pt,
+                    minimum width=1.2cm,
+                    minimum height=0.6cm,
+                    rounded corners=0.1cm
+                ] (n) at (0,0) {\theesercizio};
+
+                \ifnum#1>0
+                    \foreach \i in {1,...,#1} {
+                        \node[
+                            circle,
+                            fill=mainColor!90,
+                            inner sep=0pt,
+                            minimum size=0.2cm
+                        ] at (0.3*\i-0.6,-0.45) {};
+                    }
+                \fi
+            \end{tikzpicture}%
+        }%
+        \hspace{0.3cm}%
+    }%
+    \ignorespaces
+}{
+    \end{list}
+    \par
+    \vspace{0.7cm}
 }
 
 \usepackage{multicol}

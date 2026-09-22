@@ -1,6 +1,8 @@
 #!/bin/bash
 mkdir -p temp
 
+rm temp/* -rf
+
 pdflatex --shell-escape ./"INFO - 3 info.tex"
 
 pdflatex --shell-escape --jobname="INFO - 3 info SOLUTION" '\def\soluzioni{1}\input{"INFO - 3 info.tex"}'

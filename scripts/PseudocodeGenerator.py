@@ -26,7 +26,7 @@ def preprocess_code(code: str) -> str:
         if stripped:
             result.append(' ' * (indent_level * indent_size) + stripped)
         
-        if any(stripped.startswith(kw) for kw in ('IF', 'FOR', 'WHILE', 'DO')):
+        if any(stripped.startswith(kw) for kw in ('IF', 'ELSE', 'FOR', 'WHILE', 'DO')):
             indent_level += 1
     return '\n'.join(result)
 
