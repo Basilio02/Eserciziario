@@ -3,93 +3,25 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from pathlib import Path
 
-
-# ============================================================
-# INPUT DI ESEMPIO
-# ============================================================
-# Spazi iniziali, tab e righe vuote vengono ignorati.
-#
-# Istruzioni:
-#   DECLARE testo
-#   INPUT testo
-#   OUTPUT testo
-#   PROCESS testo
-#
-# Blocchi:
-#   IF condizione
-#       TRUE
-#           ...
-#       END TRUE
-#       FALSE
-#           ...
-#       END FALSE
-#   END IF
-#
-#   WHILE condizione
-#       ...
-#   END WHILE
-#
-#   DO
-#       ...
-#   WHILE condizione
-#
-#   FOR init ; condizione ; incremento
-#       ...
-#   END FOR
-# ============================================================
-
-EXAMPLE = r"""
-DECLARE Integer i, j, n
-INPUT Leggi n
-PROCESS j <- 0
-
-FOR i = 0 ; i < n ; i = i + 1
-    IF i mod 2 = 0
-        TRUE
-            WHILE j < i
-                PROCESS Elabora j
-                PROCESS j <- j + 1
-            END WHILE
-            OUTPUT Numero pari
-        END TRUE
-        FALSE
-            OUTPUT Numero dispari
-        END FALSE
-    END IF
-
-    DO
-        PROCESS Aggiorna valore
-    WHILE valore != 0
-END FOR
-
-OUTPUT Fine algoritmo
-"""
-
-
 # ============================================================
 # AST
 # ============================================================
-
 
 @dataclass
 class Declare:
     text: str
 
-
 @dataclass
 class Input:
     text: str
-
 
 @dataclass
 class Output:
     text: str
 
-
 @dataclass
 class Process:
     text: str
-
 
 @dataclass
 class If:
@@ -97,18 +29,15 @@ class If:
     true_branch: list[object] = field(default_factory=list)
     false_branch: list[object] = field(default_factory=list)
 
-
 @dataclass
 class While:
     condition: str
     body: list[object] = field(default_factory=list)
 
-
 @dataclass
 class DoWhile:
     condition: str
     body: list[object] = field(default_factory=list)
-
 
 @dataclass
 class For:
@@ -117,15 +46,12 @@ class For:
     increment: str
     body: list[object] = field(default_factory=list)
 
-
 class ParseError(ValueError):
     pass
-
 
 # ============================================================
 # PARSER
 # ============================================================
-
 
 def clean_lines(source: str) -> list[tuple[int, str]]:
     lines: list[tuple[int, str]] = []
@@ -329,11 +255,9 @@ def parse_algorithm(source: str) -> list[object]:
 
     return root
 
-
 # ============================================================
 # MODELLO DEL DIAGRAMMA
 # ============================================================
-
 
 @dataclass
 class Node:
@@ -343,7 +267,6 @@ class Node:
     x: float
     y: float
 
-
 @dataclass
 class Edge:
     source: str
@@ -351,14 +274,12 @@ class Edge:
     label: str = ""
     route: str = "direct"
 
-
 @dataclass
 class Fragment:
     entry: str
     exit: str
     center_x: float
     bottom_y: float
-
 
 class Diagram:
     def __init__(self):
@@ -375,17 +296,14 @@ class Diagram:
     def add_edge(self, source: str, target: str, label: str = "", route: str = "direct") -> None:
         self.edges.append(Edge(source, target, label, route))
 
-
 # ============================================================
 # LAYOUT
 # ============================================================
-
 
 VERTICAL_STEP = 1.75
 BRANCH_GAP = 4.80
 JOIN_GAP = 1.35
 LOOP_GAP = 4.20
-
 
 def layout_sequence(diagram: Diagram, statements: list[object], x: float, y: float) -> Fragment:
     if not statements:
@@ -406,7 +324,6 @@ def layout_sequence(diagram: Diagram, statements: list[object], x: float, y: flo
 
     assert first is not None and previous is not None
     return Fragment(first.entry, previous.exit, x, previous.bottom_y)
-
 
 def layout_statement(diagram: Diagram, stmt: object, x: float, y: float) -> Fragment:
     if isinstance(stmt, Declare):
@@ -431,61 +348,55 @@ def layout_statement(diagram: Diagram, stmt: object, x: float, y: float) -> Frag
         return layout_for(diagram, stmt, x, y)
     raise TypeError(f"Nodo AST non gestito: {type(stmt).__name__}")
 
-
 def layout_if(diagram: Diagram, stmt: If, x: float, y: float) -> Fragment:
     decision = diagram.add_node("decision", stmt.condition, x, y)
     false_fragment = layout_sequence(diagram, stmt.false_branch, x - BRANCH_GAP, y - VERTICAL_STEP * 1.65)
     true_fragment = layout_sequence(diagram, stmt.true_branch, x + BRANCH_GAP, y - VERTICAL_STEP * 1.65)
     diagram.add_edge(decision, false_fragment.entry, "False", "branch_left")
     diagram.add_edge(decision, true_fragment.entry, "True", "branch_right")
-    join_y = min(false_fragment.bottom_y, true_fragment.bottom_y) - JOIN_GAP
-    join = diagram.add_node("join", "", x, join_y)
-    diagram.add_edge(false_fragment.exit, join, route="join_left")
-    diagram.add_edge(true_fragment.exit, join, route="join_right")
-    return Fragment(decision, join, x, join_y)
-
+    joint_y = min(false_fragment.bottom_y, true_fragment.bottom_y) - JOIN_GAP
+    joint = diagram.add_node("joint", "", x, joint_y)
+    diagram.add_edge(false_fragment.exit, joint, route="joint_left")
+    diagram.add_edge(true_fragment.exit, joint, route="joint_right")
+    return Fragment(decision, joint, x, joint_y)
 
 def layout_while(diagram: Diagram, stmt: While, x: float, y: float) -> Fragment:
     head = diagram.add_node("loop", "\\textbf{While} " + f"{stmt.condition}", x, y)
     body = layout_sequence(diagram, stmt.body, x + LOOP_GAP, y - VERTICAL_STEP * 1.65)
     diagram.add_edge(head, body.entry, "True", "branch_right")
-    diagram.add_edge(body.exit, head, route="loop_back_right")
+    diagram.add_edge(body.exit, head, "False", "while_back_right")
     exit_y = min(y - VERTICAL_STEP * 1.65, body.bottom_y) - JOIN_GAP
-    exit_node = diagram.add_node("join", "", x, exit_y)
-    diagram.add_edge(head, exit_node, "False")
+    exit_node = diagram.add_node("spacer", "", x, exit_y)
+    diagram.add_edge(head, exit_node, "False", "while_spacer")
     return Fragment(head, exit_node, x, exit_y)
 
-
 def layout_do_while(diagram: Diagram, stmt: DoWhile, x: float, y: float) -> Fragment:
-    do_node = diagram.add_node("loop", "\\textfb{Do}", x, y)
+    do_node = diagram.add_node("joint", "", x, y)
     body = layout_sequence(diagram, stmt.body, x, y - VERTICAL_STEP)
     diagram.add_edge(do_node, body.entry)
     test_y = body.bottom_y - VERTICAL_STEP
     test = diagram.add_node("loop", "\\textbf{While}\\\\"+ stmt.condition, x, test_y)
     diagram.add_edge(body.exit, test)
-    diagram.add_edge(test, do_node, "True", "loop_back_right")
+    diagram.add_edge(test, do_node, "True", "do_back_right")
     exit_y = test_y - VERTICAL_STEP
-    exit_node = diagram.add_node("join", "", x, exit_y)
-    diagram.add_edge(test, exit_node, "False")
+    exit_node = diagram.add_node("spacer", "", x, exit_y)
+    diagram.add_edge(test, exit_node, "False", "while_spacer")
     return Fragment(do_node, exit_node, x, exit_y)
-
 
 def layout_for(diagram: Diagram, stmt: For, x: float, y: float) -> Fragment:
     text = "\\textbf{For} " + stmt.init + "; \\\\" + f"{stmt.condition}; {stmt.increment}"
     head = diagram.add_node("loop", text, x, y)
     body = layout_sequence(diagram, stmt.body, x + LOOP_GAP, y - VERTICAL_STEP * 1.6)
-    diagram.add_edge(head, body.entry, "Next", "branch_right")
-    diagram.add_edge(body.exit, head, route="loop_back_right")
+    diagram.add_edge(head, body.entry, "True", "branch_right")
+    diagram.add_edge(body.exit, head, route="for_back_right")
     exit_y = min(body.bottom_y, y - VERTICAL_STEP * 1.6) - JOIN_GAP
-    exit_node = diagram.add_node("join", "", x, exit_y)
-    diagram.add_edge(head, exit_node, "Done")
+    exit_node = diagram.add_node("spacer", "", x, exit_y)
+    diagram.add_edge(head, exit_node, "False", "while_spacer")
     return Fragment(head, exit_node, x, exit_y)
-
 
 # ============================================================
 # GENERATORE LaTeX/TIKZ
 # ============================================================
-
 
 def latex_escape(text: str) -> str:
     replacements = {
@@ -501,37 +412,46 @@ def latex_escape(text: str) -> str:
         text = text.replace(source, target)
     return text
 
-
 def render_node(node: Node) -> str:
-    text = node.text
-    #latex_escape(node.text).replace(r"\\", r"\\")
-    return f"  \\node[{node.kind}] ({node.id}) at ({node.x:.2f},{node.y:.2f}) {{{text}}};"
-
+    return f"  \\node[{node.kind}] ({node.id}) at ({node.x:.2f},{node.y:.2f}) {{{node.text}}};"
 
 def render_edge(edge: Edge) -> str:
     label = ""
     if edge.label:
         position = "right"
         if edge.route == "branch_left":
-            position = "above left"
+            position = "below=0.3cm, right=0.8cm"
         elif edge.route == "branch_right":
-            position = "above right"
+            position = "below=0.3cm, left=0.8cm"
         label = f" node[label,{position}] {{{latex_escape(edge.label)}}}"
 
     if edge.route == "branch_left":
-        return f"  \\draw[flow] ({edge.source}.west) -|{label} ({edge.target}.north);"
+        return f"  \\draw[flow, -{{Latex[length=1.7mm]}}] ({edge.source}.west) -|{label} ({edge.target}.north);"
     if edge.route == "branch_right":
-        return f"  \\draw[flow] ({edge.source}.east) -|{label} ({edge.target}.north);"
-    if edge.route in {"join_left", "join_right"}:
-        return f"  \\draw[flow] ({edge.source}.south) |- ({edge.target});"
-    if edge.route == "loop_back_right":
-        return f"  \\draw[flow] ({edge.source}.east) -- ++(1.1,0) |- ({edge.target}.north east);"
-    return f"  \\draw[flow] ({edge.source}) --{label} ({edge.target});"
+        return f"  \\draw[flow, -{{Latex[length=1.7mm]}}] ({edge.source}.east) -|{label} ({edge.target}.north);"
+    if edge.route in {"joint_left", "joint_right"}:
+        return f"  \\draw[flow, -{{Latex[length=1.7mm]}}] ({edge.source}.south) |- ({edge.target});"
+    if edge.route == "do_back_right":
+        return f"  \\draw[flow, -{{Latex[length=1.7mm]}}] ({edge.source}.east) -- ++(1.1,0) |- ({edge.target}.east);"
+    if edge.route == "while_back_right":
+        return f"  \\draw[flow, -{{Latex[length=1.7mm]}}] ({edge.source}.east) -- ++(1.1,0) |- ({edge.target}.north east);"
+    if edge.route == "for_back_right":
+            return f"  \\draw[flow, -{{Latex[length=1.7mm]}}] ({edge.source}.south) -- ++(1.5,0) |- ({edge.target}.north east);"
+    if edge.route == "while_spacer":
+        return f"  \\draw[flow] ({edge.source}) --{label} ({edge.target}.south);"
+    return f"  \\draw[flow, -{{Latex[length=1.7mm]}}] ({edge.source}) --{label} ({edge.target});"
 
-
-def render_latex(diagram: Diagram, title: str = "Flowchart") -> str:
+def render_latex(diagram: Diagram) -> str:
     node_lines = "\n".join(render_node(node) for node in diagram.nodes)
     edge_lines = "\n".join(render_edge(edge) for edge in diagram.edges)
+    return rf"""
+\begin{{tikzpicture}}[x=1cm,y=1cm, scale=0.7, transform shape]
+{node_lines}
+
+{edge_lines}
+\end{{tikzpicture}}"""
+
+
     return rf"""\documentclass[a4paper,11pt]{{article}}
 
 \usepackage[margin=1.5cm]{{geometry}}
@@ -553,7 +473,7 @@ def render_latex(diagram: Diagram, title: str = "Flowchart") -> str:
   output/.style={{trapezium, trapezium left angle=75, trapezium right angle=105, draw=black, fill=green!20, minimum width=3.7cm, minimum height=8mm, text width=3.2cm, align=center, font=\sffamily\small}},
   decision/.style={{diamond, draw=red!80!black, fill=red!25, minimum width=3.7cm, minimum height=1.35cm, text width=2.4cm, align=center, aspect=2, font=\sffamily\small}},
   loop/.style={{chamfered rectangle, draw=brown!70!black, fill=orange!25, minimum width=4.0cm, minimum height=10mm, text width=3.4cm, align=center, font=\sffamily\small}},
-  join/.style={{circle, draw=black, fill=red!20, minimum size=3.5mm, inner sep=0pt}},
+  joint/.style={{circle, draw=black, fill=red!20, minimum size=3.5mm, inner sep=0pt}},
   label/.style={{font=\sffamily\footnotesize, fill=white, inner sep=1pt}}
 }}
 
@@ -569,11 +489,9 @@ def render_latex(diagram: Diagram, title: str = "Flowchart") -> str:
 \end{{document}}
 """
 
-
 # ============================================================
 # PROGRAMMA PRINCIPALE
 # ============================================================
-
 
 def build_diagram(ast: list[object]) -> Diagram:
     diagram = Diagram()
@@ -584,16 +502,83 @@ def build_diagram(ast: list[object]) -> Diagram:
     diagram.add_edge(body.exit, stop)
     return diagram
 
-
-def main() -> None:
-    ast = parse_algorithm(EXAMPLE)
+def generateLatex(code):
+    ast = parse_algorithm(code)
     diagram = build_diagram(ast)
-    latex = render_latex(diagram, "Flowchart generato da Python")
+    latex = render_latex(diagram)
     output = Path("flowchart_generato.tex")
     output.write_text(latex, encoding="utf-8")
-    print(f"Creato: {output.resolve()}")
-    print("Compila con: pdflatex flowchart_generato.tex")
+    return latex
+    # print(f"Creato: {output.resolve()}")
+    # print("Compila con: pdflatex flowchart_generato.tex")
+
+def main(code):
+    print(generateLatex(code))
+
+
+
+
+# ============================================================
+# INPUT DI ESEMPIO
+# ============================================================
+# Spazi iniziali, tab e righe vuote vengono ignorati.
+#
+# Istruzioni:
+#   DECLARE testo
+#   INPUT testo
+#   OUTPUT testo
+#   PROCESS testo
+#
+# Blocchi:
+#   IF condizione
+#       TRUE
+#           ...
+#       END TRUE
+#       FALSE
+#           ...
+#       END FALSE
+#   END IF
+#
+#   WHILE condizione
+#       ...
+#   END WHILE
+#
+#   DO
+#       ...
+#   WHILE condizione
+#
+#   FOR init ; condizione ; incremento
+#       ...
+#   END FOR
+# ============================================================
+
+EXAMPLE = r"""
+DECLARE Integer i, j, n
+INPUT Leggi n
+PROCESS j <- 0
+
+FOR i = 0 ; i < n ; i = i + 1
+    IF i mod 2 = 0
+        TRUE
+            WHILE j < i
+                PROCESS Elabora j
+                PROCESS j <- j + 1
+            END WHILE
+            OUTPUT Numero pari
+        END TRUE
+        FALSE
+            OUTPUT Numero dispari
+        END FALSE
+    END IF
+
+    DO
+        PROCESS Aggiorna valore
+    WHILE valore != 0
+END FOR
+
+OUTPUT Fine algoritmo
+"""
 
 
 if __name__ == "__main__":
-    main()
+    main(EXAMPLE)
