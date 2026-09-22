@@ -87,7 +87,29 @@ Risolvere i seguenti esercizi, scrivendo la pseudocodifica e il flowchart corris
     \ifsoluzioni
         \solution
 
-        ECCO LA SOLUZIONE
+        \begin{filecontents*}{temp/fl1f.txt}
+        DECLARE Integer a, b, c, d, maggiore
+        INPUT Leggi a
+        INPUT Leggi b
+        INPUT Leggi c
+        INPUT Leggi d
+        
+        PROCESS maggiore = a
+
+        IF b > maggiore
+            TRUE
+                PROCESS maggiore = b
+            END TRUE
+        END IF
+
+        OUTPUT maggiore
+        \end{filecontents*}
+
+        \immediate\write18{python3 ../scripts/FlowChartGenerator.py -f temp/fl1f.txt > temp/fl1f.tex}
+        \input{temp/fl1f.tex}
+
+        \immediate\write18{python3 ../scripts/PseudocodeGenerator.py -f temp/fl1f.txt > temp/fl1p.tex}
+        \input{temp/fl1p.tex}
     \fi
 \end{esercizio}
 

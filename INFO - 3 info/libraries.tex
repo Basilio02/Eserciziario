@@ -1,1 +1,149 @@
 \definecolor{mainColor}{RGB}{252, 132, 3}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,shapes.geometric,shapes.misc,calc}
+
+\tikzset{
+  flow/.style={
+    thick
+  },
+  startstop/.style={
+    circle, 
+    draw=black, 
+    fill=red!20, 
+    minimum size=8mm, 
+    inner sep=1pt, 
+    align=center, 
+    font=\sffamily\small
+  },
+  declare/.style={
+    rectangle, draw=black, 
+    fill=yellow!25, 
+    minimum width=4.0cm, 
+    minimum height=1cm, 
+    text width=3.5cm, 
+    align=center, 
+    font=\sffamily\small,
+    path picture={
+        \draw ([xshift=2mm]path picture bounding box.north west) -- ([xshift=2mm]path picture bounding box.south west);
+        \draw ([yshift=-2mm]path picture bounding box.north west) -- ([yshift=-2mm]path picture bounding box.north east);
+    }
+  },
+  process/.style={
+    rectangle, 
+    draw=yellow!60!black, 
+    fill=yellow!15, 
+    minimum width=3.7cm, 
+    minimum height=8mm, 
+    text width=3.2cm, 
+    align=center, 
+    font=\sffamily\small
+  },
+  input/.style={
+    trapezium, 
+    trapezium left angle=75, 
+    trapezium right angle=105, 
+    draw=blue!50!black, 
+    fill=blue!20, 
+    minimum width=3.7cm, 
+    minimum height=8mm, 
+    text width=3.2cm, 
+    align=center, 
+    font=\sffamily\small
+  },
+  output/.style={
+    trapezium, 
+    trapezium left angle=75, 
+    trapezium right angle=105, 
+    draw=green!50!black,
+    fill=green!20, 
+    minimum width=3.7cm,
+    minimum height=8mm, 
+    text width=3.2cm, 
+    align=center, 
+    font=\sffamily\small
+  },
+  decision/.style={
+    diamond, 
+    draw=red!80!black, 
+    fill=red!25, 
+    minimum width=3.7cm, 
+    minimum height=1.35cm, 
+    text width=2.4cm, 
+    align=center, 
+    aspect=2,
+    font=\sffamily\small
+  },
+  loop/.style={
+    chamfered rectangle,
+    chamfered rectangle out=0.5cm,
+    draw=brown!70!black, 
+    fill=orange!25, 
+    minimum width=4.0cm, 
+    minimum height=1cm, 
+    text width=3.4cm, 
+    align=center, 
+    font=\sffamily\small
+  },
+  joint/.style={
+    circle,
+    draw=red!80!black, 
+    fill=red!25, 
+    minimum size=1mm
+  },
+  label/.style={
+    font=\sffamily\footnotesize, 
+    fill=white, 
+    inner sep=1pt
+  }
+}
+
+\usepackage{xcolor}
+\usepackage{listings}
+
+\lstdefinelanguage{Pseudocodice}{
+  sensitive=false,
+  morekeywords={
+    DECLARE,
+    INPUT,
+    OUTPUT,
+    PROCESS,
+    IF,
+    TRUE,
+    FALSE,
+    END,
+    WHILE,
+    DO,
+    FOR
+  },
+  morecomment=[l]{\#},
+  morecomment=[l]{//},
+  morestring=[b]",
+  morestring=[b]'
+}
+
+\lstdefinestyle{pseudocodice}{
+  language=Pseudocodice,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue!70!black}\bfseries,
+  commentstyle=\color{green!45!black}\itshape,
+  stringstyle=\color{red!65!black},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  numbersep=10pt,
+  frame=single,
+  rulecolor=\color{black!45},
+  backgroundcolor=\color{gray!7},
+  breaklines=true,
+  breakatwhitespace=false,
+  columns=fullflexible,
+  keepspaces=true,
+  showspaces=false,
+  showstringspaces=false,
+  tabsize=4,
+  xleftmargin=1.6em,
+  framexleftmargin=1.4em,
+  aboveskip=1.2em,
+  belowskip=1.2em,
+  captionpos=b
+}
