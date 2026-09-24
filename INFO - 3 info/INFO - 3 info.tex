@@ -136,7 +136,7 @@ Risolvere i seguenti esercizi, scrivendo la pseudocodifica e il flowchart corris
     \fi
 \end{esercizio}
 
-\begin{esercizio}[2]
+\begin{esercizio}[1]
     Date le dimensioni di due rettangoli calcolarne l'area e determinare quale dei due ha superficie maggiore.
     \ifsoluzioni
         \solution
@@ -145,12 +145,49 @@ Risolvere i seguenti esercizi, scrivendo la pseudocodifica e il flowchart corris
     \fi
 \end{esercizio}
 
-\begin{esercizio}[3]
+\begin{esercizio}[1]
     Dati 3 numeri stampare il più piccolo, il più grande e la loro media aritmetica.
     \ifsoluzioni
         \solution
 
         ECCO LA SOLUZIONE
+    \fi
+\end{esercizio}
+
+\begin{esercizio}[2]
+    Una scultura è formata da un cubo, sormontato da altri due cubi di lato rispettivamente doppio e triplo rispetto al primo cubo. Scrivere la pseudocodifica e poi il flowchart che chieda la il lato del primo cubo, assicurandosi sia valido e calcoli il volume totale della scultura e la superfice visibile totale.
+    \ifsoluzioni
+        \solution
+
+        \begin{filecontents*}{temp/fl6f.txt}
+        DECLARE Real l1, l2, l3
+        DO
+            INPUT Leggi l1
+        WHILE l1 <= 0
+        PROCESS l2 = 2 * l1
+        PROCESS l3 = 2 * l1
+        DECLARE Real s1, s2, s3
+        PROCESS s1 = l1 * l1 * 6
+        PROCESS s2 = l2 * l3 * 6
+        PROCESS s3 = l3 * l3 * 6
+        
+        DECLARE Real vis
+        PROCESS vis = s1 + s2 + s3
+        PROCESS vis = vis - 2 * l1 - 2 * l2
+        OUTPUT vis
+
+        DECLARE Real vol
+        PROCESS vol = l1 * l1 * l1 + l2 * l2 *l2 + l3 * l3 * l3
+        OUTPUT vol
+        \end{filecontents*}
+
+        \immediate\write18{python3 ../scripts/PseudocodeGenerator.py -f temp/fl6f.txt > temp/fl6p.tex}
+        \input{temp/fl6p.tex}
+        \newpage
+
+        \immediate\write18{python3 ../scripts/FlowChartGenerator.py -f temp/fl6f.txt > temp/fl6f.tex}
+        \input{temp/fl6f.tex}
+        \newpage
     \fi
 \end{esercizio}
 
