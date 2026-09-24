@@ -136,31 +136,45 @@ Dato il seguente alfabeto sorgente T e alfabeto codifica E,
 % \end{esercizio}
 
 
-% %----------------------------------------------------------------------------------------
-% %	CHAPTER 2
-% %----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%	CHAPTER 2
+%----------------------------------------------------------------------------------------
 
-% \chapter{Sistema binario}
+\chapter{Sistema binario}
 
-% \section{Conversione dalla base 10 alla base 2}
+\section{Base 2}
 
-% \begin{esercizio}[1]
-%     \textbf{Esercizio guidato}
+Convertire i seguenti numeri dalla base 10 alla base 2:
 
-%     Convertire il numero 80 dalla base 10 alla base 2
+\begin{esercizio}[1]
+    \textbf{Esercizio guidato}
 
-%     \lipsum[1]
-% \end{esercizio}
+    Convertire il numero 80 dalla base 10 alla base 2
 
-% \section{Software}
+    \immediate\write18{python3 ./../scripts/Dec2Bin.py 80 > temp/ex_dec2bin80.tex}
+    \input{./temp/ex_dec2bin80.tex}
 
-% \begin{esercizio}[1]
-%     \textbf{Esercizio guidato}
+\end{esercizio}
 
-%     Convertire il numero 80 dalla base 10 alla base 2
+\eserciziopy{convDecBin}
 
-%     \lipsum[1]
-% \end{esercizio}
+\newpage
+
+Convertire i seguenti numeri dalla base 2 alla base 10:
+
+\begin{esercizio}[1]
+    \textbf{Esercizio guidato}
+
+    Convertire il numero 10101 dalla base 2 alla base 10
+
+    \immediate\write18{python3 ./../scripts/Bin2Dec.py 10101 > temp/ex_bin2dec10101.tex}
+    \input{./temp/ex_bin2dec10101.tex}
+
+\end{esercizio}
+
+\eserciziopy{convBinDec}
+
+
 
 % %----------------------------------------------------------------------------------------
 % %	CHAPTER 3

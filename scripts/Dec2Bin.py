@@ -1,6 +1,6 @@
-def main(params, spaces):
+def generateLatex(params):
     BASE = 2
-	
+        
     n = int(params)
     orig = n
 
@@ -11,17 +11,22 @@ def main(params, spaces):
         n = q
 
     valore = "".join(str(r) for _, _, r in reversed(passaggi_divisioni))
-    print("    " * spaces + "{")
-    print("    " * (spaces + 1) + f"${orig}_{{10}} = {valore}_{{{BASE}}}$")
-    print("")
+    res = []
+    res.append("{")
+    res.append(f"${orig}_{{10}} = {valore}_{{{BASE}}}$")
+    res.append("")
 
     for dividendo, quoziente, resto in passaggi_divisioni:
-        print("    " * (spaces + 1) + f"${dividendo} \\div {BASE} = {quoziente}$ con resto ${resto}$")
-        print("")
-		
-    print("    " * spaces + "}")
-    print("    " * spaces)
-    print("    " * spaces)
+        res.append(f"${dividendo} \\div {BASE} = {quoziente}$ con resto ${resto}$")
+        res.append("")
+        
+    res.append("}")
+    res.append("")
+    res.append("")
+    return "\n".join(res)
+
+def main(params, spaces):
+    print(generateLatex(params))
 
 import sys
 
