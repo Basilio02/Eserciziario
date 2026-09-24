@@ -191,7 +191,49 @@ Risolvere i seguenti esercizi, scrivendo la pseudocodifica e il flowchart corris
     \fi
 \end{esercizio}
 
+\begin{esercizio}[3]
+    Una biblioteca vuole registrare il numero di libri presi in prestito durante una settimana.
+    Scrivere la pseudocodifica e il flowchart che:
 
+        richiedano in input il numero di libri prestati per ciascuno dei 7 giorni della settimana (valore non negativo);
+        calcolino il numero totale di prestiti effettuati nella settimana;
+        individuino il giorno con il maggior numero di prestiti;
+        visualizzino il totale dei prestiti e il giorno più richiesto.
+    \ifsoluzioni
+        \solution
+
+        \begin{filecontents*}{temp/fl7f.txt}
+        DECLARE Integer prestiti, totale, massimo, giornoMax, giorno
+        PROCESS totale = 0
+        PROCESS giornoMax = 1
+        FOR giorno = 1 ; giorno <= 7 ; giorno = giorno + 1
+            DO
+                INPUT Leggi prestiti
+            WHILE prestiti < 0
+            PROCESS totale = totale + prestiti
+            IF giorno == 1
+                PROCESS massimo = prestiti
+            ELSE
+                IF prestiti > massimo
+                    PROCESS massimo = prestiti
+                    PROCESS giornoMax = giorno
+                END IF
+            END IF
+        END FOR
+        OUTPUT totale
+        OUTPUT giornoMax
+        OUTPUT massimo
+        \end{filecontents*}
+
+        \immediate\write18{python3 ../scripts/PseudocodeGenerator.py -f temp/fl7f.txt > temp/fl7p.tex}
+        \input{temp/fl7p.tex}
+        \newpage
+
+        \immediate\write18{python3 ../scripts/FlowChartGenerator.py -f temp/fl7f.txt > temp/fl7f.tex}
+        \input{temp/fl7f.tex}
+        \newpage
+    \fi
+\end{esercizio}
 
 \newpage
 
