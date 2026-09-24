@@ -1,25 +1,30 @@
 def generateLatex(params):
-    BASE = 2
-        
+
     n = int(params)
-    orig = n
+    segno = "1" if n < 0 else "0"
+    n = abs(n)  # lavora solo sul modulo
 
     passaggi_divisioni = []
     while n > 0:
-        q, r = divmod(n, BASE)
+        q, r = divmod(n, 2)
         passaggi_divisioni.append((n, q, r))
         n = q
 
-    valore = "".join(str(r) for _, _, r in reversed(passaggi_divisioni))
+    valore_modulo = "".join(str(r) for _, _, r in reversed(passaggi_divisioni))
+
+    valore = segno + "\\hspace{0.05cm}" + valore_modulo
+
+    # composizione del risultato
     res = []
     res.append("{")
-    res.append(f"${orig}_{{10}} = {valore}_{{{BASE}}}$")
+    res.append(f"${params}_{{10}} = {valore}_2$")
+
     res.append("")
 
     for dividendo, quoziente, resto in passaggi_divisioni:
-        res.append(f"${dividendo} \\div {BASE} = {quoziente}$ con resto ${resto}$")
+        res.append(f"${dividendo} \\div 2 = {quoziente}$ con resto ${resto}$")
         res.append("")
-        
+
     res.append("}")
     res.append("")
     res.append("")

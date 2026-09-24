@@ -160,7 +160,10 @@ Convertire i seguenti numeri dalla base 10 alla base 2:
 
 \newpage
 
+\noindent
 Convertire i seguenti numeri dalla base 2 alla base 10:
+
+\vspace{0.5cm}
 
 \begin{esercizio}[1]
     \textbf{Esercizio guidato}
@@ -174,6 +177,41 @@ Convertire i seguenti numeri dalla base 2 alla base 10:
 
 \eserciziopy{convBinDec}
 
+\newpage
+
+\section{Base 2 - Modulo e Segno}
+
+Convertire i seguenti numeri dalla base 10 alla base 2 usando la codifica modulo e segno:
+
+\begin{esercizio}[1]
+    \textbf{Esercizio guidato}
+
+    Convertire il numero -71 dalla base 10 alla base 2
+
+    \immediate\write18{python3 ./../scripts/Dec2BinMS.py "-71" > temp/ex_dec2bin2ms-71.tex}
+    \input{./temp/ex_dec2bin2ms-71.tex}
+
+\end{esercizio}
+
+\eserciziopy{dec2bin_ms}
+
+\newpage
+
+\section{Base 2 - Complemento a 2}
+
+Convertire i seguenti numeri dalla base 10 alla base 2 usando la codifica complemento a 2:
+
+\begin{esercizio}[1]
+    \textbf{Esercizio guidato}
+
+    Convertire il numero -71 dalla base 10 alla base 2
+
+    \immediate\write18{python3 ./../scripts/Dec2BinC2.py "-71" > temp/ex_dec2bin2c2-71.tex}
+    \input{./temp/ex_dec2bin2c2-71.tex}
+
+\end{esercizio}
+
+\eserciziopy{dec2bin_c2}
 
 
 % %----------------------------------------------------------------------------------------

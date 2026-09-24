@@ -109,12 +109,12 @@ def preprocess_code(code: str) -> str:
                 break
     return '\n'.join(result)
 
-def generatePseudocodeLatex(code):
-    processed = preprocess_code(code)
+def generateLatex(params):
+    processed = preprocess_code(params)
     return latex_listing_escape(processed.strip())
 
-def main(code):
-    print(generatePseudocodeLatex(code))
+def main(params):
+    print(generateLatex(params))
 
 # main("""
 # DECLARE Integer i, j, n
