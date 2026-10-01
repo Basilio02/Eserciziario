@@ -191,7 +191,7 @@ Risolvere i seguenti esercizi, scrivendo la pseudocodifica e il flowchart corris
     \fi
 \end{esercizio}
 
-\begin{esercizio}[3]
+\begin{esercizio}[2]
     Una biblioteca vuole registrare il numero di libri presi in prestito durante una settimana.
     Scrivere la pseudocodifica e il flowchart che:
 
@@ -223,6 +223,70 @@ Risolvere i seguenti esercizi, scrivendo la pseudocodifica e il flowchart corris
         OUTPUT totale
         OUTPUT giornoMax
         OUTPUT massimo
+        \end{filecontents*}
+
+        \immediate\write18{python3 ../scripts/PseudocodeGenerator.py -f temp/fl7f.txt > temp/fl7p.tex}
+        \input{temp/fl7p.tex}
+        \newpage
+
+        \immediate\write18{python3 ../scripts/FlowChartGenerator.py -f temp/fl7f.txt > temp/fl7f.tex}
+        \input{temp/fl7f.tex}
+        \newpage
+    \fi
+\end{esercizio}
+
+\begin{esercizio}[2]
+    Una palestra vuole monitorare il numero di ingressi registrati durante una settimana.
+    Scrivere la pseudocodifica e il flowchart che:
+    \begin{itemize}[label=--, labelsep=0.3cm]
+	\item richiedano in input il numero di ingressi per ciascuno dei 7 giorni della settimana (valore non negativo);
+	\item calcolino il numero totale di ingressi della settimana;
+	\item individuino il giorno con il minor numero di ingressi;
+	\item calcolino il numero medio di ingressi giornalieri;
+	\item visualizzino il totale degli ingressi, la media giornaliera e il giorno meno frequentato.
+	\end{itemize}
+    \ifsoluzioni
+        \solution
+
+        \begin{filecontents*}{temp/fl8f.txt}
+        
+        \end{filecontents*}
+
+        \immediate\write18{python3 ../scripts/PseudocodeGenerator.py -f temp/fl8f.txt > temp/fl8p.tex}
+        \input{temp/fl7p.tex}
+        \newpage
+
+        \immediate\write18{python3 ../scripts/FlowChartGenerator.py -f temp/fl8f.txt > temp/fl8f.tex}
+        \input{temp/fl8f.tex}
+        \newpage
+    \fi
+\end{esercizio}
+
+\begin{esercizio}[3]
+    Scrivere la pseudocodifica e il flowchart di una calcolatrice che: 
+     \begin{itemize} [labelsep=0.3cm]
+        \item visualizzi un menu con le seguenti
+         operazioni: 
+         \begin{itemize}[labelsep=0.3cm]
+            \item 1 - Somma 
+            \item 2 - Sottrazione 
+            \item 3 - Moltiplicazione 
+            \item 4 - Divisione 
+            \item 5 - Esci \end{itemize} 
+            \item richieda all'utente la scelta dell'operazione da eseguire; 
+            \item se la scelta è compresa tra 1 e 4, acquisisca in input due numeri; 
+            \item esegua l'operazione corrispondente alla scelta effettuata; 
+            \item nel caso della divisione, verifichi che il secondo numero sia diverso da zero; 
+            \item visualizzi il risultato dell'operazione; 
+            \item riproponga il menu fino a quando l'utente non seleziona l'opzione \texttt{5 - Esci}; 
+            \item al termine del programma, visualizzi un messaggio di chiusura. 
+    \end{itemize}
+    
+    \ifsoluzioni
+        \solution
+
+        \begin{filecontents*}{temp/fl7f.txt}
+        
         \end{filecontents*}
 
         \immediate\write18{python3 ../scripts/PseudocodeGenerator.py -f temp/fl7f.txt > temp/fl7p.tex}
